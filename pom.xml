@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>de.lgohlke.selenium</groupId>
+    <artifactId>webdriver</artifactId>
+    <version>0.1</version>
+
+    <ciManagement>
+        <system>travis ci</system>
+        <url>https://travis-ci.org/lkwg82/de.lgohlke.selenium-webdriver</url>
+    </ciManagement>
+
+    <inceptionYear>2015</inceptionYear>
+    <url>https://github.com/lkwg82/de.lgohlke.selenium-webdriver</url>
+
+    <licenses>
+        <license>
+            <url>https://github.com/lkwg82/de.lgohlke.selenium-webdriver/blob/master/LICENSE</url>
+            <name>GNU GENERAL PUBLIC LICENSE</name>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <id>lkwg82</id>
+            <name>Lars K.W. Gohlke</name>
+            <url>http://www.lgohlke.de</url>
+            <roles>
+                <role>initiator</role>
+            </roles>
+        </developer>
+    </developers>
+
+    <issueManagement>
+        <system>github</system>
+        <url>https://github.com/lkwg82/de.lgohlke.selenium-webdriver/issues</url>
+    </issueManagement>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.lewisd</groupId>
+                <artifactId>lint-maven-plugin</artifactId>
+                <version>0.0.8</version>
+                <configuration>
+                    <onlyRunRules>
+                        <rule>ExecutionId</rule>
+                        <rule>RedundantPluginVersion</rule>
+                        <rule>RedundantDepVersion</rule>
+                        <rule>GAVOrder</rule>
+                        <rule>DuplicateDep</rule>
+                        <rule>OSSDevelopersSectionRule</rule>
+                        <rule>OSSContinuousIntegrationManagementSectionRule</rule>
+                        <rule>OSSInceptionYearRule</rule>
+                        <rule>OSSIssueManagementSectionRule</rule>
+                        <rule>OSSLicenseSectionRule</rule>
+                        <rule>OSSUrlSectionRule</rule>
+                    </onlyRunRules>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>pom-lint</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
