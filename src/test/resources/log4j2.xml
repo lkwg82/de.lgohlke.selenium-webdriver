@@ -10,6 +10,8 @@
     </Appenders>
 
     <Loggers>
+        <Logger name="de.lgohlke.selenium.webdriver.ErrorLoggingWebDriverEventListener" level="FATAL"/>
+
         <Root level="warn">
             <AppenderRef ref="consoleAppender"/>
         </Root>
