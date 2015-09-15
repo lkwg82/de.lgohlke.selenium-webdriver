@@ -1,11 +1,12 @@
 package de.lgohlke.selenium.webdriver.phantomjs;
 
-import de.lgohlke.selenium.webdriver.DriverArgumentsBuilder;
-import de.lgohlke.selenium.webdriver.DriverServiceFactory;
 import de.lgohlke.logging.LogLevel;
 import de.lgohlke.logging.LogLevelFilter;
 import de.lgohlke.logging.LogLevelFilterFactory;
 import de.lgohlke.logging.SysStreamsLogger;
+import de.lgohlke.selenium.webdriver.DriverArgumentsBuilder;
+import de.lgohlke.selenium.webdriver.DriverServiceFactory;
+import de.lgohlke.selenium.webdriver.ExecutablePath;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriverService;
@@ -25,8 +26,7 @@ import java.util.logging.Logger;
 @Slf4j
 public class PhantomJSDriverServiceFactory implements DriverServiceFactory<PhantomJSDriverService> {
 
-    private static final String PATH       = "/tools/phantomjs-1.9.7-linux-x86_64/";
-    private static final String EXECUTABLE = PATH + "bin/phantomjs";
+    private static final File EXECUTABLE = new ExecutablePath().buildExecutablePath("phantomjs");
 
     static {
         LogManager.getLogManager().reset();
@@ -53,10 +53,8 @@ public class PhantomJSDriverServiceFactory implements DriverServiceFactory<Phant
         argList.add("--ssl-protocol=any");
         argList.addAll(Arrays.asList(arguments));
 
-        String executable = getClass().getResource(EXECUTABLE).getFile();
-        new File(executable).setExecutable(true);
         return new PhantomJSDriverService.Builder()
-                .usingPhantomJSExecutable(new File(executable))
+                .usingPhantomJSExecutable(EXECUTABLE)
                 .usingCommandLineArguments(argList.toArray(new String[argList.size()]))
                 .usingAnyFreePort().build();
     }
@@ -64,5 +62,4 @@ public class PhantomJSDriverServiceFactory implements DriverServiceFactory<Phant
     public DriverArgumentsBuilder createServiceArgumentsBuilder() {
         return new PhantomJSDriverServiceArgumentsBuilder();
     }
-
 }

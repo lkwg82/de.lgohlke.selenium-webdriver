@@ -44,14 +44,20 @@
         <selenium.version>2.47.1</selenium.version>
         <slf4j.version>1.7.12</slf4j.version>
         <log4j.version>2.3</log4j.version>
+
+        <drivers.installation.directory>${project.build.directory}/drivers</drivers.installation.directory>
     </properties>
+
+    <prerequisites>
+        <maven>3</maven>
+    </prerequisites>
 
     <build>
         <plugins>
             <plugin>
                 <groupId>com.lewisd</groupId>
                 <artifactId>lint-maven-plugin</artifactId>
-                <version>0.0.8</version>
+                <version>0.0.9</version>
                 <configuration>
                     <onlyRunRules>
                         <rule>ExecutionId</rule>
@@ -78,12 +84,72 @@
                 </executions>
             </plugin>
             <plugin>
+                <groupId>com.github.webdriverextensions</groupId>
+                <artifactId>webdriverextensions-maven-plugin</artifactId>
+                <version>1.1.1-SNAPSHOT</version>
+                <configuration>
+                    <drivers>
+                        <driver>
+                            <name>chromedriver</name>
+                            <platform>linux</platform>
+                            <bit>64</bit>
+                            <version>2.19</version>
+                        </driver>
+                        <driver>
+                            <name>phantomjs</name>
+                            <platform>linux</platform>
+                            <bit>64</bit>
+                            <version>1.9.7</version>
+                            <url>http://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.7-linux-x86_64.tar.bz2</url>
+                            <checksum>bd03f5dbf21006159f18709dca56366c</checksum>
+                            <fileMatchInside>.*/bin/phantomjs$</fileMatchInside>
+                        </driver>
+                    </drivers>
+                    <installationDirectory>${drivers.installation.directory}</installationDirectory>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>webdriver download</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>install-drivers</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.1</version>
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.17</version>
+                <configuration>
+                    <includes>
+                        <include>**/*Test*.java</include>
+                    </includes>
+                    <environmentVariables>
+                        <DRIVERS_PATH>${drivers.installation.directory}</DRIVERS_PATH>
+                    </environmentVariables>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>2.17</version>
+                <configuration>
+                    <includes>
+                        <include>**/*Test*.java</include>
+                    </includes>
+                    <environmentVariables>
+                        <DRIVERS_PATH>${drivers.installation.directory}</DRIVERS_PATH>
+                    </environmentVariables>
                 </configuration>
             </plugin>
         </plugins>

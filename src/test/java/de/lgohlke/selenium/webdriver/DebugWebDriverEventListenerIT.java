@@ -27,7 +27,7 @@ public class DebugWebDriverEventListenerIT {
     @Rule
     public DriverService          driverService = new DriverService(DriverType.CHROME);
     @Rule
-    public HttpServerFromResource httpServer    = new HttpServerFromResource("/testdata/webdriver");
+    public HttpServerFromResource httpServer    = new HttpServerFromResource("/");
 
     private EventFiringWebDriver driver;
     private File                 folder;

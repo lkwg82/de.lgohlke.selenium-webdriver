@@ -47,9 +47,11 @@ public class HttpServerFromResource extends ExternalResource {
 
                 String resource = null;
                 try {
-                    resource = HttpServerFromResourceInner.class.getResource(pathToServe + requestUri).getFile();
+                    String name = pathToServe + requestUri;
+                    name = name.replaceFirst("/+","/");
+                    resource = HttpServerFromResourceInner.class.getResource(name).getFile();
                 } catch (NullPointerException e) {
-                    HttpServerFromResourceInner.log.debug("could not find " + requestUri);
+                    HttpServerFromResourceInner.log.error("could not find " + requestUri);
                 }
 
                 if (!new File(resource).exists()) {

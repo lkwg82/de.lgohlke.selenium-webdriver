@@ -1,15 +1,11 @@
 package de.lgohlke.selenium.webdriver.phantomjs;
 
 import com.sun.net.httpserver.HttpServer;
-import de.lgohlke.selenium.webdriver.DriverArgumentsBuilder;
 import de.lgohlke.junit.FreeportProber;
-import de.lgohlke.junit.Mitmdump;
+import de.lgohlke.selenium.webdriver.DriverArgumentsBuilder;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.RuleChain;
-import org.junit.rules.TestRule;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.net.PortProber;
 import org.openqa.selenium.phantomjs.PhantomJSDriverService;
@@ -18,16 +14,15 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
 
-import static de.lgohlke.junit.p.Mitmdump.MODE.SERVE;
 import static org.assertj.core.api.StrictAssertions.assertThat;
 
 
 public class PhantomJSDriverServiceFactoryIT {
     private final FreeportProber proxyPortProber = new FreeportProber();
-    private final Mitmdump       mitmdump        = new Mitmdump(SERVE, "/testdata/proxy.flow", proxyPortProber);
+//    private final Mitmdump       mitmdump        = new Mitmdump(SERVE, "/testdata/proxy.flow", proxyPortProber);
 
-    @Rule
-    public TestRule chain = RuleChain.outerRule(proxyPortProber).around(mitmdump);
+//    @Rule
+//    public TestRule chain = RuleChain.outerRule(proxyPortProber).around(mitmdump);
 
     private PhantomJSDriverServiceFactory factory = new PhantomJSDriverServiceFactory();
     private HttpServer httpServer;

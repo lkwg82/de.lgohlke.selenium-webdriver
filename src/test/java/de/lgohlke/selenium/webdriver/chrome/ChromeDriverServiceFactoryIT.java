@@ -2,15 +2,12 @@ package de.lgohlke.selenium.webdriver.chrome;
 
 import com.sun.net.httpserver.HttpServer;
 import de.lgohlke.junit.FreeportProber;
-import de.lgohlke.junit.Mitmdump;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.RuleChain;
 import org.junit.rules.TemporaryFolder;
-import org.junit.rules.TestRule;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriverService;
@@ -29,11 +26,11 @@ public class ChromeDriverServiceFactoryIT {
     @Rule
     public        TemporaryFolder            temporaryFolder = new TemporaryFolder();
     private       FreeportProber             proxyPortProber = new FreeportProber();
-    private       Mitmdump                   mitmdump        = new Mitmdump(de.lgohlke.junit.p.Mitmdump.MODE.SERVE,
-                                                                            "/testdata/proxy.flow",
-                                                                            proxyPortProber);
-    @Rule
-    public        TestRule                   chain           = RuleChain.outerRule(proxyPortProber).around(mitmdump);
+//    private       Mitmdump                   mitmdump        = new Mitmdump(de.lgohlke.junit.p.Mitmdump.MODE.SERVE,
+//                                                                            "/testdata/proxy.flow",
+//                                                                            proxyPortProber);
+//    @Rule
+//    public        TestRule                   chain           = RuleChain.outerRule(proxyPortProber).around(mitmdump);
     private HttpServer          httpServer;
     private ChromeDriverService driverService;
 

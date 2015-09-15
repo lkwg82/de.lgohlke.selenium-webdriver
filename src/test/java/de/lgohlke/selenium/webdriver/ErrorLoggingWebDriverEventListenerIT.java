@@ -1,7 +1,7 @@
 package de.lgohlke.selenium.webdriver;
 
-import de.lgohlke.junit.HttpServerFromResource;
 import de.lgohlke.junit.DriverService;
+import de.lgohlke.junit.HttpServerFromResource;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.StrictAssertions;
 import org.junit.Before;
@@ -36,8 +36,7 @@ public class ErrorLoggingWebDriverEventListenerIT {
     @Rule
     public DriverService          driverServiceChrome    = new DriverService(CHROME);
     @Rule
-    public HttpServerFromResource httpServer             = new HttpServerFromResource(
-            "/testdata/webdriver");
+    public HttpServerFromResource httpServer             = new HttpServerFromResource("/");
 
     private WebDriver                          driverPhantomJS;
     private WebDriver                          driverChrome;

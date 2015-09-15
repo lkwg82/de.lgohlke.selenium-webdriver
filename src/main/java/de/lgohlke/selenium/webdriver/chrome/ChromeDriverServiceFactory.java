@@ -1,12 +1,13 @@
 package de.lgohlke.selenium.webdriver.chrome;
 
-import de.lgohlke.selenium.webdriver.DriverArgumentsBuilder;
-import de.lgohlke.selenium.webdriver.DriverConfiguration;
-import de.lgohlke.selenium.webdriver.DriverServiceFactory;
 import de.lgohlke.logging.LogLevel;
 import de.lgohlke.logging.LogLevelFilter;
 import de.lgohlke.logging.LogLevelFilterFactory;
 import de.lgohlke.logging.SysStreamsLogger;
+import de.lgohlke.selenium.webdriver.DriverArgumentsBuilder;
+import de.lgohlke.selenium.webdriver.DriverConfiguration;
+import de.lgohlke.selenium.webdriver.DriverServiceFactory;
+import de.lgohlke.selenium.webdriver.ExecutablePath;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.WebDriver;
@@ -22,7 +23,7 @@ import java.util.Map;
 @Slf4j
 @RequiredArgsConstructor
 public class ChromeDriverServiceFactory implements DriverServiceFactory<ChromeDriverService> {
-    private static final String PATH = "/tools/chrome-driver-2.19/chromedriver";
+    private static final File EXECUTABLE = new ExecutablePath().buildExecutablePath("chromedriver");
 
     static {
         LogLevelFilter defaultErrorFilter = LogLevelFilterFactory.createAll(LogLevel.INFO, LogLevelFilter.USE.SYSERR);
@@ -70,10 +71,8 @@ public class ChromeDriverServiceFactory implements DriverServiceFactory<ChromeDr
             }
         }
 
-        String executable = getClass().getResource(PATH).getFile();
-        new File(executable).setExecutable(true);
         return new Builder()
-                .usingDriverExecutable(new File(executable))
+                .usingDriverExecutable(EXECUTABLE)
                 .withEnvironment(environment)
                 .usingAnyFreePort().build();
     }
