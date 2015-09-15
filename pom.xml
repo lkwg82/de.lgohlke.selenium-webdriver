@@ -100,7 +100,8 @@
                             <platform>linux</platform>
                             <bit>64</bit>
                             <version>1.9.7</version>
-                            <url>http://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.7-linux-x86_64.tar.bz2</url>
+                            <url>http://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.7-linux-x86_64.tar.bz2
+                            </url>
                             <checksum>bd03f5dbf21006159f18709dca56366c</checksum>
                             <fileMatchInside>.*/bin/phantomjs$</fileMatchInside>
                         </driver>
@@ -230,4 +231,44 @@
             <version>${slf4j.version}</version>
         </dependency>
     </dependencies>
+
+
+    <profiles>
+        <profile>
+            <id>sonar-coverage</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.jacoco</groupId>
+                        <artifactId>jacoco-maven-plugin</artifactId>
+                        <version>0.7.4.201502262128</version>
+                        <configuration>
+                            <append>true</append>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>agent-for-ut</id>
+                                <goals>
+                                    <goal>prepare-agent</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>agent-for-it</id>
+                                <goals>
+                                    <goal>prepare-agent-integration</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>jacoco-site</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>report</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
