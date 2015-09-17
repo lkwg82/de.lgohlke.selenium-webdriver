@@ -25,24 +25,28 @@ class StreamGobbler extends Thread {
     public void run() {
         try (FileInputStream fileInputStream = new FileInputStream(logFile.toFile())) {
             try (InputStreamReader in = new InputStreamReader(fileInputStream)) {
-                try (BufferedReader br = new BufferedReader(in)) {
-                    while (!finishReading) {
-                        String line = br.readLine();
-                        if (line == null) {
-                            //wait until there is more of the file for us to read
-                            Thread.sleep(50);
-                        } else {
-                            logRoutine.log(line);
-                        }
-                    }
-                } catch (InterruptedException e) {
-                    log.error(e.getMessage(), e);
-                }
+                passReadLineToLog(in);
             }
         } catch (IOException ioe) {
             log.error(ioe.getMessage(), ioe);
         }
 
         log.debug("finished: " + this);
+    }
+
+    private void passReadLineToLog(InputStreamReader in) throws IOException {
+        try (BufferedReader br = new BufferedReader(in)) {
+            while (!finishReading) {
+                String line = br.readLine();
+                if (line == null) {
+                    //wait until there is more of the file for us to read
+                    Thread.sleep(50);
+                } else {
+                    logRoutine.log(line);
+                }
+            }
+        } catch (InterruptedException e) {
+            log.error(e.getMessage(), e);
+        }
     }
 }

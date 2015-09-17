@@ -151,23 +151,21 @@ public class ErrorLoggingWebDriverEventListener extends AbstractWebDriverEventLi
     }
 
     private boolean isExceptionFromWebDriverEventListerAfterXYHook(Throwable throwable) {
-        if (!(throwable instanceof StaleElementReferenceException)) {
-            return false;
-        }
+        if (throwable instanceof StaleElementReferenceException) {
+            for (StackTraceElement stackTraceElement : throwable.getStackTrace()) {
+                String className = stackTraceElement.getClassName();
+                Class<?> clazz;
+                try {
+                    clazz = Class.forName(className);
+                } catch (ClassNotFoundException e) {
+                    log.error(e.getMessage(), e);
+                    return false;
+                }
 
-        for (StackTraceElement stackTraceElement : throwable.getStackTrace()) {
-            String className = stackTraceElement.getClassName();
-            Class<?> clazz;
-            try {
-                clazz = Class.forName(className);
-            } catch (ClassNotFoundException e) {
-                log.error(e.getMessage(), e);
-                return false;
-            }
-
-            if (WebDriverEventListener.class.isAssignableFrom(clazz)
-                    && stackTraceElement.getMethodName().startsWith("after")) {
-                return true;
+                if (WebDriverEventListener.class.isAssignableFrom(clazz)
+                        && stackTraceElement.getMethodName().startsWith("after")) {
+                    return true;
+                }
             }
         }
         return false;

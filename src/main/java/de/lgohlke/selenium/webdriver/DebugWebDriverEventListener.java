@@ -33,7 +33,7 @@ public class DebugWebDriverEventListener extends AbstractWebDriverEventListener 
         return new SimpleDateFormat(DATE_FORMAT).format(new Date());
     }
 
-    private static BufferedImage createNewImageWithText(String[] lines, String timestamp, BufferedImage image) {
+    private static BufferedImage createNewImageWithText(String[] lines, BufferedImage image) {
         int   numberOfLines = lines.length;
         float fontHeight    = 15f;
 
@@ -69,7 +69,7 @@ public class DebugWebDriverEventListener extends AbstractWebDriverEventListener 
             throw new IllegalStateException(e);
         }
 
-        BufferedImage newImage = createNewImageWithText(lines, timestamp, image);
+        BufferedImage newImage = createNewImageWithText(lines, image);
 
         try {
             File destFile = new File(path() + "/" + timestamp + ".png");

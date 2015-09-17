@@ -10,13 +10,14 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
 @RequiredArgsConstructor
 public class HttpServerFromResource extends ExternalResource {
-    private final String pathToServe;
-    private HttpServer httpServer;
+    private final String     pathToServe;
+    private       HttpServer httpServer;
 
     @Override
     protected void before() throws Throwable {
@@ -40,24 +41,27 @@ public class HttpServerFromResource extends ExternalResource {
 
     @Slf4j
     private static class HttpServerFromResourceInner {
+        private HttpServerFromResourceInner() {
+            // ok
+        }
+
         public static HttpServer start(String pathToServe) throws IOException {
             HttpServer httpServer = HttpServer.create();
             httpServer.createContext("/", httpExchange -> {
                 String requestUri = httpExchange.getRequestURI().toString();
 
-                String resource = null;
-                try {
-                    String name = pathToServe + requestUri;
-                    name = name.replaceFirst("/+","/");
-                    resource = HttpServerFromResourceInner.class.getResource(name).getFile();
-                } catch (NullPointerException e) {
+                String name = pathToServe + requestUri;
+                name = name.replaceFirst("/+", "/");
+                URL resource = HttpServerFromResourceInner.class.getResource(name);
+
+                if (resource == null) {
                     HttpServerFromResourceInner.log.error("could not find " + requestUri);
                 }
 
-                if (!new File(resource).exists()) {
+                if (!new File(resource.getFile()).exists()) {
                     httpExchange.sendResponseHeaders(404, 0);
                 } else {
-                    byte[] bytes = Files.readAllBytes(Paths.get(resource));
+                    byte[] bytes = Files.readAllBytes(Paths.get(resource.getFile()));
                     httpExchange.sendResponseHeaders(200, bytes.length);
 
                     OutputStream os = httpExchange.getResponseBody();

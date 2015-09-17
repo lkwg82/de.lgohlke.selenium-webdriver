@@ -39,7 +39,7 @@ public class Mitmdump extends Programm {
         p.waitFor(10, TimeUnit.SECONDS);
 
         String result = readStderr(p).trim();
-        if (!result.equals("mitmdump 0.11.3")) {
+        if (!"mitmdump 0.11.3".equals(result)) {
             throw new IllegalStateException("output:" + result + ", please install correct version");
         }
 
@@ -58,8 +58,6 @@ public class Mitmdump extends Programm {
             start(PROGRAMM + " -v -S " + trafficFile + " --norefresh --no-pop -k --no-upstream-cert -p " + port);
         } else {
             throw new NotImplementedException("");
-//            log.info("starting in dump mode");
-//            start(PROGRAMM + " -v -w " + trafficFile.toString());
         }
     }
 
