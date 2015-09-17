@@ -1,7 +1,7 @@
 before_install:
   - sudo sed -e 's#precise#trusty#g' -i /etc/apt/sources.list
   - sudo apt-get update -q
-  - sudo apt-get upgrade -y -f
+  - export DEBIAN_FRONTEND=noninteractive && sudo apt-get upgrade -y -f
   - sudo apt-get install -y software-properties-common python-software-properties bash-completion libterm-readline-perl-perl
   - sudo apt-get install -y python-setuptools  gcc libpython2.7-dev libxml2-dev libxslt1-dev libffi-dev libssl-dev
   - easy_install pip
