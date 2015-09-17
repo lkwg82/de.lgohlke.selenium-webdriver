@@ -1,7 +1,2 @@
-before_install:
-  - sudo apt-get update -q
-  - sudo apt-get install -y xvfb
-
 language: java
-
 jdk: oraclejdk8
