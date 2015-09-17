@@ -55,7 +55,7 @@ public class HttpServerFromResource extends ExternalResource {
                 URL resource = HttpServerFromResourceInner.class.getResource(name);
 
                 if (resource == null) {
-                    HttpServerFromResourceInner.log.error("could not find " + requestUri);
+                    log.warn("could not find " + requestUri);
                 }
 
                 if (!new File(resource.getFile()).exists()) {
