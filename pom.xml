@@ -29,7 +29,8 @@
             <name>Lars K.W. Gohlke</name>
             <url>http://www.lgohlke.de</url>
             <roles>
-                <role>initiator</role>
+                <role>developer</role>
+                <role>architect</role>
             </roles>
         </developer>
     </developers>
@@ -47,12 +48,12 @@
         <log4j.version>2.3</log4j.version>
 
         <drivers.installation.directory>/tmp/webdrivers</drivers.installation.directory>
-        <xvfb.display>20</xvfb.display>
         <phantomjsdriver.version>1.2.0</phantomjsdriver.version>
+        <xvfb.display>20</xvfb.display>
     </properties>
 
     <prerequisites>
-        <maven>3</maven>
+        <maven>3.0.4</maven>
     </prerequisites>
 
     <build>
@@ -267,7 +268,6 @@
         </dependency>
     </dependencies>
 
-
     <profiles>
         <profile>
             <id>sonar-coverage</id>
@@ -298,6 +298,60 @@
                                 <phase>verify</phase>
                                 <goals>
                                     <goal>report</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>2.4</version>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>2.10.3</version>
+                        <configuration>
+                            <additionalparam>-Xdoclint:none</additionalparam>
+                            <quiet>true</quiet>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.5</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
                                 </goals>
                             </execution>
                         </executions>
