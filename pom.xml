@@ -45,7 +45,7 @@
         <slf4j.version>1.7.12</slf4j.version>
         <log4j.version>2.3</log4j.version>
 
-        <drivers.installation.directory>${project.build.directory}/drivers</drivers.installation.directory>
+        <drivers.installation.directory>/tmp/webdrivers</drivers.installation.directory>
     </properties>
 
     <prerequisites>
@@ -92,21 +92,16 @@
                         <driver>
                             <name>chromedriver</name>
                             <platform>linux</platform>
-                            <bit>64</bit>
                             <version>2.19</version>
                         </driver>
                         <driver>
                             <name>phantomjs</name>
                             <platform>linux</platform>
-                            <bit>64</bit>
                             <version>1.9.7</version>
-                            <url>http://bitbucket.org/ariya/phantomjs/downloads/phantomjs-1.9.7-linux-x86_64.tar.bz2
-                            </url>
-                            <checksum>bd03f5dbf21006159f18709dca56366c</checksum>
-                            <fileMatchInside>.*/bin/phantomjs$</fileMatchInside>
                         </driver>
                     </drivers>
                     <installationDirectory>${drivers.installation.directory}</installationDirectory>
+                    <keepDownloadedWebdrivers>true</keepDownloadedWebdrivers>
                 </configuration>
                 <executions>
                     <execution>
