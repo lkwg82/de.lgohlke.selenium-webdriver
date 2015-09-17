@@ -1,4 +1,4 @@
-before_script:
+before_install:
   - sudo apt-get update -q
   - sudo apt-get install -y software-properties-common python-software-properties bash-completion libterm-readline-perl-perl
   - sudo apt-get install -y python-setuptools  gcc libpython2.7-dev libxml2-dev libxslt1-dev libffi-dev libssl-dev
