@@ -1,4 +1,4 @@
-package de.lgohlke.junit;
+package de.lgohlke.selenium.webdriver.junit;
 
 import de.lgohlke.selenium.webdriver.DriverServiceFactory;
 import de.lgohlke.selenium.webdriver.DriverType;
