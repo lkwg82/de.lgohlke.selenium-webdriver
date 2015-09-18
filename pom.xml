@@ -9,11 +9,6 @@
     <name>WebDriver library</name>
     <description>adds some essential webdriver util classes</description>
 
-    <ciManagement>
-        <system>travis ci</system>
-        <url>https://travis-ci.org/lkwg82/de.lgohlke.selenium-webdriver</url>
-    </ciManagement>
-
     <inceptionYear>2015</inceptionYear>
     <url>https://github.com/lkwg82/de.lgohlke.selenium-webdriver</url>
 
@@ -28,7 +23,7 @@
         <connection>scm:git:git@github.com:lkwg82/de.lgohlke.selenium-webdriver.git</connection>
         <developerConnection>scm:git:git@github.com:lkwg82/de.lgohlke.selenium-webdriver.git</developerConnection>
         <url>git@github.com:lkwg82/de.lgohlke.selenium-webdriver.git</url>
-        <tag>webdriver-0.1</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <developers>
@@ -73,35 +68,35 @@
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>com.lewisd</groupId>
-                <artifactId>lint-maven-plugin</artifactId>
-                <version>0.0.9</version>
-                <configuration>
-                    <onlyRunRules>
-                        <rule>ExecutionId</rule>
-                        <rule>RedundantPluginVersion</rule>
-                        <rule>RedundantDepVersion</rule>
-                        <rule>GAVOrder</rule>
-                        <rule>DuplicateDep</rule>
-                        <rule>OSSDevelopersSectionRule</rule>
-                        <rule>OSSContinuousIntegrationManagementSectionRule</rule>
-                        <rule>OSSInceptionYearRule</rule>
-                        <rule>OSSIssueManagementSectionRule</rule>
-                        <rule>OSSLicenseSectionRule</rule>
-                        <rule>OSSUrlSectionRule</rule>
-                    </onlyRunRules>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>pom-lint</id>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+            <!--<plugin>-->
+                <!--<groupId>com.lewisd</groupId>-->
+                <!--<artifactId>lint-maven-plugin</artifactId>-->
+                <!--<version>0.0.9</version>-->
+                <!--<configuration>-->
+                    <!--<onlyRunRules>-->
+                        <!--<rule>ExecutionId</rule>-->
+                        <!--<rule>RedundantPluginVersion</rule>-->
+                        <!--<rule>RedundantDepVersion</rule>-->
+                        <!--<rule>GAVOrder</rule>-->
+                        <!--<rule>DuplicateDep</rule>-->
+                        <!--<rule>OSSDevelopersSectionRule</rule>-->
+                        <!--<rule>OSSContinuousIntegrationManagementSectionRule</rule>-->
+                        <!--<rule>OSSInceptionYearRule</rule>-->
+                        <!--<rule>OSSIssueManagementSectionRule</rule>-->
+                        <!--<rule>OSSLicenseSectionRule</rule>-->
+                        <!--<rule>OSSUrlSectionRule</rule>-->
+                    <!--</onlyRunRules>-->
+                <!--</configuration>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<id>pom-lint</id>-->
+                        <!--<phase>validate</phase>-->
+                        <!--<goals>-->
+                            <!--<goal>check</goal>-->
+                        <!--</goals>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+            <!--</plugin>-->
             <plugin>
                 <groupId>de.lgohlke.com.github.webdriverextensions</groupId>
                 <artifactId>webdriverextensions-maven-plugin</artifactId>
