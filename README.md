@@ -1,4 +1,4 @@
-[![Maven Central](https://img.shields.io/maven-central/v/de.lgohlke.selenium/webdriver.svg)]()
+![Maven Central](https://maven-badges.herokuapp.com/maven-central/de.lgohlke.selenium/webdriver/badge.svg)
 
 # de.lgohlke.selenium-webdriver
 adds some essential webdriver util classes
