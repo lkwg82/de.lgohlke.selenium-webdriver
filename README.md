@@ -1,3 +1,5 @@
+[![Maven Central](https://img.shields.io/maven-central/v/de.lgohlke.selenium/webdriver.svg)]()
+
 # de.lgohlke.selenium-webdriver
 adds some essential webdriver util classes
 
