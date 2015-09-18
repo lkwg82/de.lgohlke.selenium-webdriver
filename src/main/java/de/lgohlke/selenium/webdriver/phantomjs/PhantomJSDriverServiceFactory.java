@@ -53,6 +53,7 @@ public class PhantomJSDriverServiceFactory implements DriverServiceFactory<Phant
         argList.add("--ssl-protocol=any");
         argList.addAll(Arrays.asList(arguments));
 
+        EXECUTABLE.setExecutable(true);
         return new PhantomJSDriverService.Builder()
                 .usingPhantomJSExecutable(EXECUTABLE)
                 .usingCommandLineArguments(argList.toArray(new String[argList.size()]))
