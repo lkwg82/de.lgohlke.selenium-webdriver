@@ -71,6 +71,8 @@ public class ChromeDriverServiceFactory implements DriverServiceFactory<ChromeDr
             }
         }
 
+        EXECUTABLE.setExecutable(true);
+
         return new Builder()
                 .usingDriverExecutable(EXECUTABLE)
                 .withEnvironment(environment)
