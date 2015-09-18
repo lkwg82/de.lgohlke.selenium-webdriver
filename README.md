@@ -3,6 +3,7 @@
 # de.lgohlke.selenium-webdriver
 adds some essential webdriver util classes
 
+Note: it is similiar to https://github.com/webdriverextensions/webdriverextensions, but has more emphasis on web automation instead of testing
 
 # usage
 
