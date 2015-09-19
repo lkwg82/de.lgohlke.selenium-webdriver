@@ -1,4 +1,5 @@
-![Maven Central](https://maven-badges.herokuapp.com/maven-central/de.lgohlke.selenium/webdriver/badge.svg)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/de.lgohlke.selenium/webdriver/badge.svg?style=flat-square)](https://search.maven.org/#search%7Cga%7C1%7Cg%3Ade.lgohlke.selenium)
+
 
 # de.lgohlke.selenium-webdriver
 adds some essential webdriver util classes
