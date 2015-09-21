@@ -4,7 +4,7 @@
 
     <groupId>de.lgohlke.selenium</groupId>
     <artifactId>webdriver</artifactId>
-    <version>0.3-SNAPSHOT</version>
+    <version>0.3</version>
 
     <name>WebDriver library</name>
     <description>adds some essential webdriver util classes</description>
@@ -23,7 +23,7 @@
         <connection>scm:git:git@github.com:lkwg82/de.lgohlke.selenium-webdriver.git</connection>
         <developerConnection>scm:git:git@github.com:lkwg82/de.lgohlke.selenium-webdriver.git</developerConnection>
         <url>git@github.com:lkwg82/de.lgohlke.selenium-webdriver.git</url>
-        <tag>webdriver-0.3-SNAPSHOT</tag>
+        <tag>webdriver-0.3</tag>
     </scm>
 
     <developers>
@@ -149,9 +149,9 @@
                         </goals>
                         <configuration>
                             <target>
-                                <echo message="Starting xvfb ..."/>
+                                <echo message="Starting xvfb ..." />
                                 <exec executable="Xvfb" spawn="true">
-                                    <arg value=":${xvfb.display}.0"/>
+                                    <arg value=":${xvfb.display}.0" />
                                 </exec>
                             </target>
                         </configuration>
@@ -164,9 +164,9 @@
                         </goals>
                         <configuration>
                             <target>
-                                <echo message="Ending xvfb ..."/>
+                                <echo message="Ending xvfb ..." />
                                 <exec executable="killall">
-                                    <arg value="Xvfb"/>
+                                    <arg value="Xvfb" />
                                 </exec>
                             </target>
                         </configuration>
