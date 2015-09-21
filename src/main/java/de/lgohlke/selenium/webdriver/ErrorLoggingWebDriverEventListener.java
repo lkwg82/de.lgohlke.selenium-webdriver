@@ -115,12 +115,16 @@ public class ErrorLoggingWebDriverEventListener extends AbstractWebDriverEventLi
     private boolean isExceptionFromMethodWithSwallowExceptionAnnotation(Throwable throwable) {
         for (StackTraceElement stackTraceElement : throwable.getStackTrace()) {
             String className = stackTraceElement.getClassName();
-            Class<?> clazz;
+            Class<?> clazz = null;
             try {
                 clazz = Class.forName(className);
             } catch (ClassNotFoundException e) {
-                log.error(e.getMessage(), e);
-                return false;
+                log.debug(e.getMessage(), e);
+            }
+
+            // some sun classes are not accessible
+            if (clazz == null) {
+                continue;
             }
 
             String methodName = stackTraceElement.getMethodName();
@@ -154,12 +158,16 @@ public class ErrorLoggingWebDriverEventListener extends AbstractWebDriverEventLi
         if (throwable instanceof StaleElementReferenceException) {
             for (StackTraceElement stackTraceElement : throwable.getStackTrace()) {
                 String className = stackTraceElement.getClassName();
-                Class<?> clazz;
+                Class<?> clazz = null;
                 try {
                     clazz = Class.forName(className);
                 } catch (ClassNotFoundException e) {
-                    log.error(e.getMessage(), e);
-                    return false;
+                    log.debug(e.getMessage(), e);
+                }
+
+                // some sun classes are not accessible
+                if (clazz == null) {
+                    continue;
                 }
 
                 if (WebDriverEventListener.class.isAssignableFrom(clazz)
