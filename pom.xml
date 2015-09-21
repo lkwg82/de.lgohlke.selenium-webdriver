@@ -389,7 +389,6 @@
                             <autoVersionSubmodules>true</autoVersionSubmodules>
                             <useReleaseProfile>false</useReleaseProfile>
                             <releaseProfiles>release</releaseProfiles>
-                            <preparationGoals>deploy</preparationGoals>
                             <pushChanges>true</pushChanges>
                         </configuration>
                     </plugin>
