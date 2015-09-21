@@ -149,9 +149,9 @@
                         </goals>
                         <configuration>
                             <target>
-                                <echo message="Starting xvfb ..." />
+                                <echo message="Starting xvfb ..."/>
                                 <exec executable="Xvfb" spawn="true">
-                                    <arg value=":${xvfb.display}.0" />
+                                    <arg value=":${xvfb.display}.0"/>
                                 </exec>
                             </target>
                         </configuration>
@@ -164,9 +164,9 @@
                         </goals>
                         <configuration>
                             <target>
-                                <echo message="Ending xvfb ..." />
+                                <echo message="Ending xvfb ..."/>
                                 <exec executable="killall">
-                                    <arg value="Xvfb" />
+                                    <arg value="Xvfb"/>
                                 </exec>
                             </target>
                         </configuration>
@@ -329,6 +329,9 @@
 
         <profile>
             <id>release</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
             <build>
                 <plugins>
                     <plugin>
