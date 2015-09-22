@@ -329,9 +329,6 @@
 
         <profile>
             <id>release</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
             <build>
                 <plugins>
                     <plugin>
@@ -403,6 +400,91 @@
                             <nexusUrl>https://oss.sonatype.org/</nexusUrl>
                             <autoReleaseAfterClose>true</autoReleaseAfterClose>
                         </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>pitest</id>
+            <properties>
+                <pitest-maven.goal>mutationCoverage</pitest-maven.goal>
+                <skipTests>true</skipTests>
+                <skip-spring-boot-packaging>true</skip-spring-boot-packaging>
+                <maven-pitest-plugin.version>1.1.6</maven-pitest-plugin.version>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-jar-plugin</artifactId>
+                        <version>2.5</version>
+                        <executions>
+                            <execution>
+                                <id>default-jar</id>
+                                <phase>never</phase>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.pitest</groupId>
+                        <artifactId>pitest-maven</artifactId>
+                        <version>${maven-pitest-plugin.version}</version>
+                        <configuration>
+                            <environmentVariables>
+                                <DRIVERS_PATH>${drivers.installation.directory}</DRIVERS_PATH>
+                                <DISPLAY>:${xvfb.display}</DISPLAY>
+                            </environmentVariables>
+                            <excludedMethods>
+                                <excludedMethod>equals</excludedMethod>
+                                <excludedMethod>hashCode</excludedMethod>
+                                <excludedMethod>toString</excludedMethod>
+                            </excludedMethods>
+                            <historyInputFile>${project.basedir}/pitest.history</historyInputFile>
+                            <historyOutputFile>${project.basedir}/pitest.history</historyOutputFile>
+                            <mutators>
+                                <mutator>DEFAULTS</mutator>
+                                <!--<mutator>INLINE_CONSTS</mutator>-->
+                                <!--<mutator>REMOVE_INCREMENTS</mutator>-->
+                                <!--<mutator>NON_VOID_METHOD_CALLS</mutator>-->
+                                <!--<mutator>CONSTRUCTOR_CALLS</mutator>-->
+                                <!--<mutator>REMOVE_CONDITIONALS</mutator>-->
+                                <!--<mutator>EXPERIMENTAL_MEMBER_VARIABLE</mutator>-->
+                                <!--<mutator>EXPERIMENTAL_SWITCH</mutator>-->
+                                <!--<mutator>EXPERIMENTAL_ARGUMENT_PROPAGATION</mutator>-->
+                            </mutators>
+                            <!-- this is for goal 'scmMutationCoverage' -->
+                            <include>
+                                <include>ADDED</include>
+                                <include>MODIFIED</include>
+                                <include>UNKNOWN</include>
+                            </include>
+                            <outputFormats>
+                                <outputFormat>XML</outputFormat>
+                                <outputFormat>HTML</outputFormat>
+                            </outputFormats>
+                            <skip>false</skip>
+                            <targetClasses>
+                                <param>de.lgohlke.**</param>
+                            </targetClasses>
+                            <targetTests>
+                                <param>de.lgohlke.**Test</param>
+                                <param>de.lgohlke.**IT</param>
+                            </targetTests>
+                            <threads>4</threads>
+                            <timestampedReports>false</timestampedReports>
+                            <verbose>false</verbose>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>mutation</id>
+                                <phase>integration-test</phase>
+                                <goals>
+                                    <goal>${pitest-maven.goal}</goal>
+                                </goals>
+                            </execution>
+                        </executions>
                     </plugin>
                 </plugins>
             </build>
