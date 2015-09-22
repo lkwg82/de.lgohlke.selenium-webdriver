@@ -69,6 +69,8 @@ public class ChromeDriverServiceFactory implements DriverServiceFactory<ChromeDr
             for (int i = 1; i < args.length; i += 2) {
                 environment.put(args[i - 1], args[i]);
             }
+        }else{
+            throw new IllegalArgumentException("arguments should be pairs");
         }
 
         EXECUTABLE.setExecutable(true);
