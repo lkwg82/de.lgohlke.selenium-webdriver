@@ -10,7 +10,6 @@ import de.lgohlke.selenium.webdriver.ExecutablePath;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriverService;
-import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 
@@ -24,7 +23,7 @@ import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 @Slf4j
-public class PhantomJSDriverServiceFactory implements DriverServiceFactory<PhantomJSDriverService> {
+public class PhantomJSDriverServiceFactory extends DriverServiceFactory<PhantomJSDriverService, PhantomJSDriverConfiguration> {
 
     private static final File EXECUTABLE = new ExecutablePath().buildExecutablePath("phantomjs");
 
@@ -37,10 +36,12 @@ public class PhantomJSDriverServiceFactory implements DriverServiceFactory<Phant
         SysStreamsLogger.bindSystemStreams(defaultErrorFilter);
     }
 
+    public PhantomJSDriverServiceFactory(PhantomJSDriverConfiguration driverConfiguration) {
+        super(driverConfiguration);
+    }
+
     public WebDriver createWebDriver(PhantomJSDriverService service) throws IOException {
-        DesiredCapabilities capabilities = DesiredCapabilities.phantomjs();
-        capabilities.setCapability("phantomjs.page.settings.resourceTimeout", 5000);
-        return new RemoteWebDriver(service.getUrl(), capabilities);
+        return new RemoteWebDriver(service.getUrl(), getDriverConfiguration().createCapabilities());
     }
 
     public PhantomJSDriverService createService(String... arguments) {
@@ -53,7 +54,6 @@ public class PhantomJSDriverServiceFactory implements DriverServiceFactory<Phant
         argList.add("--ssl-protocol=any");
         argList.addAll(Arrays.asList(arguments));
 
-        EXECUTABLE.setExecutable(true);
         return new PhantomJSDriverService.Builder()
                 .usingPhantomJSExecutable(EXECUTABLE)
                 .usingCommandLineArguments(argList.toArray(new String[argList.size()]))

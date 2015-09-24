@@ -6,6 +6,6 @@ public class ChromeDriverServiceFactoryTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void argumentsShouldComeInPairsElseFail() {
-        new ChromeDriverServiceFactory().createService("s");
+        new ChromeDriverServiceFactory(new ChromeDriverConfiguration()).createService("s");
     }
 }

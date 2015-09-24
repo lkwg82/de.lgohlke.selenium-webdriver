@@ -5,10 +5,8 @@ import de.lgohlke.logging.LogLevelFilter;
 import de.lgohlke.logging.LogLevelFilterFactory;
 import de.lgohlke.logging.SysStreamsLogger;
 import de.lgohlke.selenium.webdriver.DriverArgumentsBuilder;
-import de.lgohlke.selenium.webdriver.DriverConfiguration;
 import de.lgohlke.selenium.webdriver.DriverServiceFactory;
 import de.lgohlke.selenium.webdriver.ExecutablePath;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriverService;
@@ -21,8 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
-@RequiredArgsConstructor
-public class ChromeDriverServiceFactory implements DriverServiceFactory<ChromeDriverService> {
+public class ChromeDriverServiceFactory extends DriverServiceFactory<ChromeDriverService, ChromeDriverConfiguration> {
     private static final File EXECUTABLE = new ExecutablePath().buildExecutablePath("chromedriver");
 
     static {
@@ -48,14 +45,12 @@ public class ChromeDriverServiceFactory implements DriverServiceFactory<ChromeDr
         SysStreamsLogger.bindSystemStreams(defaultErrorFilter, warnErrorFilter);
     }
 
-    private final DriverConfiguration driverConfiguration;
-
-    public ChromeDriverServiceFactory() {
-        this(new ChromeDriverConfiguration());
+    public ChromeDriverServiceFactory(ChromeDriverConfiguration config) {
+        super(config);
     }
 
     public WebDriver createWebDriver(ChromeDriverService service) throws IOException {
-        return new RemoteWebDriver(service.getUrl(), driverConfiguration.createCapabilities());
+        return new RemoteWebDriver(service.getUrl(), getDriverConfiguration().createCapabilities());
     }
 
     public DriverArgumentsBuilder createServiceArgumentsBuilder() {
@@ -69,11 +64,9 @@ public class ChromeDriverServiceFactory implements DriverServiceFactory<ChromeDr
             for (int i = 1; i < args.length; i += 2) {
                 environment.put(args[i - 1], args[i]);
             }
-        }else{
+        } else {
             throw new IllegalArgumentException("arguments should be pairs");
         }
-
-        EXECUTABLE.setExecutable(true);
 
         return new Builder()
                 .usingDriverExecutable(EXECUTABLE)

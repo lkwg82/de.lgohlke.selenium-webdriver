@@ -26,7 +26,7 @@ import static org.assertj.core.api.StrictAssertions.assertThat;
 @Slf4j
 public class ChromeDriverServiceFactoryIT {
 
-    private final ChromeDriverServiceFactory factory         = new ChromeDriverServiceFactory();
+    private final ChromeDriverServiceFactory factory         = new ChromeDriverServiceFactory(new ChromeDriverConfiguration());
     @Rule
     public        TemporaryFolder            temporaryFolder = new TemporaryFolder();
     private       FreeportProber             proxyPortProber = new FreeportProber();

@@ -29,7 +29,7 @@ public class PhantomJSDriverServiceFactoryIT {
     @Rule
     public TestRule chain = RuleChain.outerRule(proxyPortProber).around(mitmdump);
 
-    private PhantomJSDriverServiceFactory factory = new PhantomJSDriverServiceFactory();
+    private PhantomJSDriverServiceFactory factory = new PhantomJSDriverServiceFactory(new PhantomJSDriverConfiguration());
     private HttpServer httpServer;
 
     @Before
