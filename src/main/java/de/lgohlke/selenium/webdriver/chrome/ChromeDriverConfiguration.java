@@ -15,11 +15,11 @@ public class ChromeDriverConfiguration implements DriverConfiguration {
         return capabilities;
     }
 
-    public DriverConfiguration setUserDir(String path) {
+    public ChromeDriverConfiguration setUserDir(String path) {
         return addCommandlineSwitch("user-data-dir=" + path);
     }
 
-    public DriverConfiguration addCommandlineSwitch(String switchh) {
+    public ChromeDriverConfiguration addCommandlineSwitch(String switchh) {
         options.addArguments(switchh);
         return this;
     }
