@@ -13,6 +13,7 @@ import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.logging.Logs;
 import org.openqa.selenium.support.events.AbstractWebDriverEventListener;
 import org.openqa.selenium.support.events.WebDriverEventListener;
 import org.openqa.selenium.support.ui.FluentWait;
@@ -103,6 +104,16 @@ public class ErrorLoggingWebDriverEventListener extends AbstractWebDriverEventLi
         for (Object o : history) {
             lines.add(o.toString());
         }
+
+        lines.add("");
+        lines.add("---- console logs ---- ");
+        Logs logs = driver.manage().logs();
+        logs.getAvailableLogTypes().forEach(type -> {
+            lines.add(type + " : ");
+            logs.get(type)
+                .getAll()
+                .forEach(entry -> lines.add(" " + entry.getTimestamp() + entry.getLevel() + entry.getMessage()));
+        });
 
         try {
             Files.write(Paths.get(path, timestamp + "_logs.log"), lines);

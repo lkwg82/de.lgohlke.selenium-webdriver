@@ -1,18 +1,21 @@
 package de.lgohlke.selenium.webdriver;
 
-import de.lgohlke.selenium.webdriver.junit.DriverService;
 import de.lgohlke.junit.HttpServerFromResource;
+import de.lgohlke.selenium.webdriver.junit.DriverService;
 import lombok.extern.slf4j.Slf4j;
-import org.assertj.core.api.StrictAssertions;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.filefilter.AbstractFileFilter;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.events.AbstractWebDriverEventListener;
 import org.openqa.selenium.support.events.EventFiringWebDriver;
@@ -21,11 +24,14 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import static de.lgohlke.selenium.webdriver.DriverType.CHROME;
 import static de.lgohlke.selenium.webdriver.DriverType.PHANTOMJS;
+import static org.assertj.core.api.StrictAssertions.assertThat;
+import static org.assertj.core.api.StrictAssertions.fail;
 
 @Slf4j
 public class ErrorLoggingWebDriverEventListenerIT {
@@ -70,7 +76,7 @@ public class ErrorLoggingWebDriverEventListenerIT {
         driverChrome.get(httpServer.url("/about.html"));
         driverChrome.findElement(By.tagName("body"));
 
-        StrictAssertions.assertThat(chromeEventListener.getHistory().size()).isEqualTo(4);
+        assertThat(chromeEventListener.getHistory().size()).isEqualTo(4);
     }
 
     @Test
@@ -85,7 +91,7 @@ public class ErrorLoggingWebDriverEventListenerIT {
             // ok
         }
 
-        StrictAssertions.assertThat(tempFolder.listFiles()).hasSize(0);
+        assertThat(tempFolder.listFiles()).hasSize(0);
     }
 
     private void testWithDriver(WebDriver driver) throws IOException {
@@ -97,7 +103,7 @@ public class ErrorLoggingWebDriverEventListenerIT {
         }
 
         File[] files = tempFolder.listFiles();
-        StrictAssertions.assertThat(files).hasSize(3);
+        assertThat(files).hasSize(3);
     }
 
     @Test
@@ -118,7 +124,7 @@ public class ErrorLoggingWebDriverEventListenerIT {
         driver.get(httpServer.url("/form.html"));
         driver.findElement(By.cssSelector("button[type='submit']")).click();
 
-        StrictAssertions.assertThat(tempFolder.listFiles()).hasSize(0);
+        assertThat(tempFolder.listFiles()).hasSize(0);
     }
 
     @Test
@@ -128,7 +134,7 @@ public class ErrorLoggingWebDriverEventListenerIT {
         By selector = By.cssSelector("a");
         new Helper().helpWithSwallow(driverChrome, selector);
 
-        StrictAssertions.assertThat(tempFolder.listFiles()).hasSize(0);
+        assertThat(tempFolder.listFiles()).hasSize(0);
     }
 
     @Test
@@ -138,7 +144,7 @@ public class ErrorLoggingWebDriverEventListenerIT {
         By selector = By.cssSelector("a");
         new Helper().helpWithSwallowAll(driverChrome, selector);
 
-        StrictAssertions.assertThat(tempFolder.listFiles()).hasSize(0);
+        assertThat(tempFolder.listFiles()).hasSize(0);
     }
 
     @Test
@@ -148,7 +154,7 @@ public class ErrorLoggingWebDriverEventListenerIT {
         By selector = By.cssSelector("form");
         new Helper().helpWithSwallowWrongException(driverChrome, selector);
 
-        StrictAssertions.assertThat(tempFolder.listFiles()).hasSize(3);
+        assertThat(tempFolder.listFiles()).hasSize(3);
     }
 
     @Test
@@ -158,7 +164,31 @@ public class ErrorLoggingWebDriverEventListenerIT {
         By selector = By.cssSelector("a");
         new Helper().helpWithSwallowNone(driverChrome, selector);
 
-        StrictAssertions.assertThat(tempFolder.listFiles()).hasSize(3);
+        assertThat(tempFolder.listFiles()).hasSize(3);
+    }
+
+    @Test
+    public void shouldLogJSErrors() throws IOException {
+        driverChrome.get(httpServer.url("/form.html"));
+
+        ((JavascriptExecutor) driverChrome).executeScript("window.setTimeout(function(){ NOT_FOUND++;},100); return 1;");
+
+        try {
+            ((JavascriptExecutor) driverChrome).executeScript("$NOT_FOUND;");
+            fail("should fail");
+        }catch (WebDriverException e){
+            // ok
+        }
+
+        File[] files = tempFolder.listFiles((FileFilter) new AbstractFileFilter() {
+            @Override
+            public boolean accept(File file) {
+                return file.getName().endsWith(".log");
+            }
+        });
+        assertThat(files.length).isEqualTo(1);
+        String contentOfLogFile = FileUtils.readFileToString(files[0]);
+        assertThat(contentOfLogFile).contains("Uncaught ReferenceError: NOT_FOUND is not defined");
     }
 
     private static class Helper {
