@@ -5,14 +5,18 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Cookie;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.logging.LogEntries;
+import org.openqa.selenium.logging.Logs;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -108,7 +112,67 @@ public class ErrorLoggingWebDriverEventListenerTest {
 
         @Override
         public Options manage() {
-            return null;
+            return new Options() {
+                @Override
+                public void addCookie(Cookie cookie) {
+
+                }
+
+                @Override
+                public void deleteCookieNamed(String name) {
+
+                }
+
+                @Override
+                public void deleteCookie(Cookie cookie) {
+
+                }
+
+                @Override
+                public void deleteAllCookies() {
+
+                }
+
+                @Override
+                public Set<Cookie> getCookies() {
+                    return null;
+                }
+
+                @Override
+                public Cookie getCookieNamed(String name) {
+                    return null;
+                }
+
+                @Override
+                public Timeouts timeouts() {
+                    return null;
+                }
+
+                @Override
+                public ImeHandler ime() {
+                    return null;
+                }
+
+                @Override
+                public Window window() {
+                    return null;
+                }
+
+                @Override
+                public Logs logs() {
+                    return new Logs() {
+                        @Override
+                        public LogEntries get(String logType) {
+                            return null;
+                        }
+
+                        @Override
+                        public Set<String> getAvailableLogTypes() {
+                            return new HashSet<>();
+                        }
+                    };
+                }
+            };
         }
     }
 }
