@@ -111,3 +111,9 @@ in your `pom.xml`
       }
   }
 ```
+
+# build instructions
+
+- install docker
+
+- run `run-tests.sh`
