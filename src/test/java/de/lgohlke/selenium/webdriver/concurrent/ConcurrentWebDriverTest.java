@@ -38,6 +38,15 @@ public class ConcurrentWebDriverTest {
     }
 
     @Test(timeout = TEST_TIMEOUT)
+    public void shouldIndicateIfLockingWebDriverIsLocked() {
+        assertThat(lockingWebdriver.isLocked()).isFalse();
+        lockingWebdriver.lock();
+        assertThat(lockingWebdriver.isLocked()).isTrue();
+        lockingWebdriver.unlock();
+        assertThat(lockingWebdriver.isLocked()).isFalse();
+    }
+
+    @Test(timeout = TEST_TIMEOUT)
     public void regularWebdriverShouldAcceptConcurrentUsage() throws InterruptedException {
         int invocations = 1000;
 
