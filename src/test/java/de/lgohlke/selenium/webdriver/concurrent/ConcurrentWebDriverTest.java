@@ -19,14 +19,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ConcurrentWebDriverTest {
     private static final int TEST_TIMEOUT = 3000;
 
-    private final long             sleepMilliseconds     = TimeUnit.MILLISECONDS.toMillis(1);
-    private final LongAdder        invokedCounter        = new LongAdder();
-    private final AtomicInteger    maxThreads            = new AtomicInteger();
-    private final MyWebdriver      wrappedDriver         = new MyWebdriver(maxThreads,
-                                                                           sleepMilliseconds,
-                                                                           invokedCounter);
-    private final WebDriver        synchronizedWebdriver = ConcurrentWebDriver.createSyncronized(wrappedDriver);
-    private final LockingWebDriver lockingWebdriver      = ConcurrentWebDriver.createLocking(wrappedDriver);
+    private long             sleepMilliseconds     = TimeUnit.MILLISECONDS.toMillis(1);
+    private LongAdder        invokedCounter        = new LongAdder();
+    private AtomicInteger    maxThreads            = new AtomicInteger();
+    private MyWebdriver      wrappedDriver         = new MyWebdriver(maxThreads,
+                                                                     sleepMilliseconds,
+                                                                     invokedCounter);
+    private WebDriver        synchronizedWebdriver = ConcurrentWebDriver.createSyncronized(wrappedDriver);
+    private LockingWebDriver lockingWebdriver      = ConcurrentWebDriver.createLocking(wrappedDriver);
 
     private static void runTest(Runnable action, int threads, int maxRange) throws InterruptedException {
         ExecutorService actionExecutors = Executors.newFixedThreadPool(threads);
