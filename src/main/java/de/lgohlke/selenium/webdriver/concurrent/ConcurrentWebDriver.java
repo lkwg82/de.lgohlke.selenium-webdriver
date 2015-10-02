@@ -12,13 +12,14 @@ import java.util.List;
 import java.util.concurrent.locks.StampedLock;
 
 /**
- * enables Webdriver usage of the same from different threads (handles locks internally)
- * <p/>
- * based on {@link org.openqa.selenium.support.ThreadGuard}
+ * enables multi-threaded interaction with the webdriver api
  */
-@RequiredArgsConstructor
 public class ConcurrentWebDriver {
-
+    /**
+     * enables Webdriver usage of the same from different threads (handles locks internally)
+     * <p/>
+     * based on {@link org.openqa.selenium.support.ThreadGuard}
+     */
     public static WebDriver createSyncronized(WebDriver webDriver) {
         ClassLoader       classLoader       = webDriver.getClass().getClassLoader();
         InvocationHandler invocationHandler = new SynchronizedWebDriverInvocationHandler(webDriver);
@@ -29,16 +30,30 @@ public class ConcurrentWebDriver {
                                                   invocationHandler);
     }
 
+    /**
+     * adds capability to lock your webDriver instance, suitable for concurrent usage
+     * <p/>
+     * <pre>
+     *      LockingWebDriver lockingDriver = createLocking(webDriver);
+     *
+     *      // blocking any other locking request
+     *      lockingDriver.lock();
+     *
+     *      lockingDriver.get("http://www.lgohlke.de");
+     *
+     *      lockingDriver.unlock();
+     * </pre>
+     */
     public static LockingWebDriver createLocking(WebDriver webDriver) {
-        ClassLoader classLoader = webDriver.getClass().getClassLoader();
 
         List<Class<?>> allInterfaces = ClassUtils.getAllInterfaces(webDriver.getClass());
         allInterfaces.add(LockingWebDriver.class);
+
+        ClassLoader       classLoader       = webDriver.getClass().getClassLoader();
         Class<?>[]        interfaces        = allInterfaces.toArray(new Class[allInterfaces.size()]);
         InvocationHandler invocationHandler = new LockingWebDriverInvocationHandler(webDriver);
-        Object            proxyInstance     = Proxy.newProxyInstance(classLoader, interfaces, invocationHandler);
 
-        return (LockingWebDriver) proxyInstance;
+        return (LockingWebDriver) Proxy.newProxyInstance(classLoader, interfaces, invocationHandler);
     }
 
     @RequiredArgsConstructor
