@@ -58,24 +58,6 @@ public class ConcurrentWebDriver {
 
     @RequiredArgsConstructor
     @Slf4j
-    private static class SynchronizedWebDriverInvocationHandler implements InvocationHandler {
-        private final StampedLock lock = new StampedLock();
-        private final WebDriver wrappedDriver;
-
-        @Override
-        public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-            log.info("isLocked {}", lock.isWriteLocked());
-            long stamp = lock.writeLock();
-            try {
-                return method.invoke(wrappedDriver, args);
-            } finally {
-                lock.unlockWrite(stamp);
-            }
-        }
-    }
-
-    @RequiredArgsConstructor
-    @Slf4j
     private static class LockingWebDriverInvocationHandler implements InvocationHandler {
         private final StampedLock lock = new StampedLock();
         private final WebDriver wrappedDriver;
