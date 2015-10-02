@@ -427,7 +427,7 @@
                 <pitest-maven.goal>mutationCoverage</pitest-maven.goal>
                 <skipTests>true</skipTests>
                 <skip-spring-boot-packaging>true</skip-spring-boot-packaging>
-                <maven-pitest-plugin.version>1.1.6</maven-pitest-plugin.version>
+                <maven-pitest-plugin.version>1.1.7</maven-pitest-plugin.version>
             </properties>
             <build>
                 <plugins>
