@@ -38,19 +38,10 @@ public class ConcurrentWebDriverTest {
     }
 
     @Test(timeout = TEST_TIMEOUT)
-    public void shouldIndicateIfLockingWebDriverIsLocked() {
-        assertThat(lockingWebdriver.isLocked()).isFalse();
-        lockingWebdriver.lock();
-        assertThat(lockingWebdriver.isLocked()).isTrue();
-        lockingWebdriver.unlock();
-        assertThat(lockingWebdriver.isLocked()).isFalse();
-    }
-
-    @Test(timeout = TEST_TIMEOUT)
     public void regularWebdriverShouldAcceptConcurrentUsage() throws InterruptedException {
         int invocations = 1000;
 
-        runTest(() -> wrappedDriver.get("xyz"), 20, invocations);
+        runTest(() -> wrappedDriver.get("xyz"), 200, invocations);
 
         assertThat(maxThreads.intValue()).isGreaterThan(1);
         assertThat(invokedCounter.intValue()).isEqualTo(invocations);
@@ -67,38 +58,29 @@ public class ConcurrentWebDriverTest {
     }
 
     @Test(timeout = TEST_TIMEOUT)
-    public void setLockingWebdriverShouldAcceptAtMostSingleUsageAutocloseable() throws InterruptedException {
-        int invocations = 500;
+    public void setLockingWebdriverShouldAcceptAtMostSingle() throws InterruptedException {
+        int invocations = 1000;
 
-        runTest(() -> {
-            try (UnlockLockingWebdriver ignored = lockingWebdriver.lock()) {
-                lockingWebdriver.get("xyz");
-            } catch (Exception e) {
-                log.error(e.getMessage(), e);
-            }
-        }, 50, invocations);
+        runTest(() -> lockingWebdriver.get("xyz"), 200, invocations);
 
         assertThat(maxThreads.intValue()).isEqualTo(1);
         assertThat(invokedCounter.intValue()).isEqualTo(invocations);
     }
 
     @Test(timeout = TEST_TIMEOUT)
-    public void setLockingWebdriverShouldAcceptAtMostSingleUsagePlain() throws InterruptedException {
-        int invocations = 500;
+    public void shouldUnlockWithAutocloseable() throws Exception {
+        assertThat(lockingWebdriver.isLocked()).isFalse();
 
-        runTest(() -> {
-            lockingWebdriver.lock();
-            lockingWebdriver.get("xyz");
-            lockingWebdriver.unlock();
-        }, 50, invocations);
+        try (UnlockLockingWebdriver unlockLockingWebdriver = lockingWebdriver.lock()) {
+            // do sth
+        }
 
-        assertThat(maxThreads.intValue()).isEqualTo(1);
-        assertThat(invokedCounter.intValue()).isEqualTo(invocations);
+        assertThat(lockingWebdriver.isLocked()).isFalse();
     }
 
     @RequiredArgsConstructor
     @Slf4j
-    static class MyWebdriver extends AbstractWebDriver {
+    private static class MyWebdriver extends AbstractWebDriver {
         private final LongAdder counter = new LongAdder();
 
         private final AtomicInteger max;

@@ -1,22 +1,20 @@
 package de.lgohlke.selenium.webdriver.concurrent;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ClassUtils;
 import org.openqa.selenium.WebDriver;
 
 import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.List;
-import java.util.concurrent.locks.StampedLock;
 
 /**
  * enables multi-threaded interaction with the webdriver api
  */
 public class ConcurrentWebDriver {
     /**
-     * enables Webdriver usage of the same from different threads (handles locks internally)
+     * enables Webdriver usage of the same from different threads (handles locks internally). This locks an already in use instance.
+     * <p/>
+     * <i>Difference to <tt>ThreadGuard</tt>:</i> It does not forbid usage of a single webdriver by different threads.
      * <p/>
      * based on {@link org.openqa.selenium.support.ThreadGuard}
      */
@@ -51,35 +49,10 @@ public class ConcurrentWebDriver {
 
         ClassLoader       classLoader       = webDriver.getClass().getClassLoader();
         Class<?>[]        interfaces        = allInterfaces.toArray(new Class[allInterfaces.size()]);
-        InvocationHandler invocationHandler = new LockingWebDriverInvocationHandler(webDriver);
+        WebDriver         syncronizedDriver = ConcurrentWebDriver.createSyncronized(webDriver);
+        InvocationHandler invocationHandler = new LockingWebDriverInvocationHandler(syncronizedDriver);
 
         return (LockingWebDriver) Proxy.newProxyInstance(classLoader, interfaces, invocationHandler);
     }
 
-    @RequiredArgsConstructor
-    @Slf4j
-    private static class LockingWebDriverInvocationHandler implements InvocationHandler {
-        private final StampedLock lock = new StampedLock();
-        private final WebDriver wrappedDriver;
-        private long stamp = 0L;
-
-        @Override
-        public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-            if (null == args && "lock".equals(method.getName())) {
-                stamp = lock.writeLock();
-                log.info("locking with {}", stamp);
-                return (UnlockLockingWebdriver) ((LockingWebDriver) proxy)::unlock;
-            } else if (null == args && "unlock".equals(method.getName())) {
-                log.info("unlocking with {}", stamp);
-                lock.unlockWrite(stamp);
-                return null;
-            } else if (null == args && "isLocked".equals(method.getName())) {
-                boolean writeLocked = lock.isWriteLocked();
-                log.info("is locked {}", writeLocked);
-                return writeLocked;
-            } else {
-                return method.invoke(wrappedDriver, args);
-            }
-        }
-    }
 }
