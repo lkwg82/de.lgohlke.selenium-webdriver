@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>de.lgohlke.selenium</groupId>
@@ -57,9 +58,10 @@
         <slf4j.version>1.7.12</slf4j.version>
         <log4j.version>2.3</log4j.version>
 
-        <drivers.installation.directory>/tmp/webdrivers</drivers.installation.directory>
+        <drivers.installation.directory>/tmp/webdrivers-${user.name}</drivers.installation.directory>
         <phantomjsdriver.version>1.2.0</phantomjsdriver.version>
         <xvfb.display>20</xvfb.display>
+        <maven.build.timestamp.format>ddHHmmSSS</maven.build.timestamp.format>
     </properties>
 
     <prerequisites>
@@ -149,9 +151,11 @@
                         </goals>
                         <configuration>
                             <target>
-                                <echo message="Starting xvfb ..." />
-                                <exec executable="Xvfb" spawn="true">
-                                    <arg value=":${xvfb.display}.0" />
+                                <echo message="Starting xvfb ... ${xvfb.display}"/>
+                                <exec executable="bash" spawn="false" dir="${project.build.directory}">
+                                    <arg value="${project.basedir}/src/test/resources/xvfb.sh"/>
+                                    <arg value="${xvfb.display}"/>
+                                    <arg value="start"/>
                                 </exec>
                             </target>
                         </configuration>
@@ -164,15 +168,18 @@
                         </goals>
                         <configuration>
                             <target>
-                                <echo message="Ending xvfb ..." />
-                                <exec executable="killall">
-                                    <arg value="Xvfb" />
+                                <echo message="Ending xvfb ..."/>
+                                <exec executable="bash" spawn="false" dir="${project.build.directory}">
+                                    <arg value="${project.basedir}/src/test/resources/xvfb.sh"/>
+                                    <arg value="${xvfb.display}"/>
+                                    <arg value="stop"/>
                                 </exec>
                             </target>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -290,6 +297,15 @@
     </dependencies>
 
     <profiles>
+        <profile>
+            <id>displayNumber</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <xvfb.display>${maven.build.timestamp}</xvfb.display>
+            </properties>
+        </profile>
         <profile>
             <id>sonar-coverage</id>
             <build>
