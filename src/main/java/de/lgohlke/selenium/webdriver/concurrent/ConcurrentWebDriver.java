@@ -49,10 +49,12 @@ public class ConcurrentWebDriver {
 
         ClassLoader       classLoader       = webDriver.getClass().getClassLoader();
         Class<?>[]        interfaces        = allInterfaces.toArray(new Class[allInterfaces.size()]);
-        WebDriver         syncronizedDriver = ConcurrentWebDriver.createSyncronized(webDriver);
-        InvocationHandler invocationHandler = new LockingWebDriverInvocationHandler(syncronizedDriver);
+        InvocationHandler invocationHandler = new LockingWebDriverInvocationHandler(webDriver);
 
-        return (LockingWebDriver) Proxy.newProxyInstance(classLoader, interfaces, invocationHandler);
+        LockingWebDriver lockingWebDriver = (LockingWebDriver) Proxy.newProxyInstance(classLoader,
+                                                                                      interfaces,
+                                                                                      invocationHandler);
+        return (LockingWebDriver) ConcurrentWebDriver.createSyncronized(lockingWebDriver);
     }
 
 }
