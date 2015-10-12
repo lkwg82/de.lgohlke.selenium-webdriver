@@ -35,6 +35,7 @@ public class DriverServiceTest {
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void shouldBeWrappedInEventFiringWebdriver() throws Throwable {
         AbstractWebDriverEventListener eventListener = new AbstractWebDriverEventListener() {
         };
@@ -46,7 +47,7 @@ public class DriverServiceTest {
         assertThat(driver).isInstanceOf(EventFiringWebDriver.class);
 
         EventFiringWebDriver eventFiringWebDriver = (EventFiringWebDriver) driver;
-        Field                field       = EventFiringWebDriver.class.getDeclaredField("eventListeners");
+        Field                field                = EventFiringWebDriver.class.getDeclaredField("eventListeners");
         field.setAccessible(true);
 
         assertThat(((List<WebDriverEventListener>) field.get(eventFiringWebDriver)).size()).isEqualTo(1);
