@@ -345,6 +345,9 @@
 
         <profile>
             <id>release</id>
+            <properties>
+                <maven.build.timestamp.format>yyyyMMdd</maven.build.timestamp.format>
+            </properties>
             <build>
                 <plugins>
                     <plugin>
@@ -402,9 +405,10 @@
                             <autoVersionSubmodules>true</autoVersionSubmodules>
                             <useReleaseProfile>false</useReleaseProfile>
                             <releaseProfiles>release</releaseProfiles>
-                            <pushChanges>false</pushChanges>
-                            <arguments>-P release -Dexec.executable=${project.basedir}/add_to_latest_tag_changelog.sh</arguments>
+                            <pushChanges>true</pushChanges>
+                            <arguments>-Dexec.executable=${project.basedir}/add_to_latest_tag_changelog.sh</arguments>
                             <completionGoals>exec:exec</completionGoals>
+                            <releaseVersion>${maven.build.timestamp}</releaseVersion>
                         </configuration>
                     </plugin>
 
