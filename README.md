@@ -9,20 +9,13 @@ Note: it is similiar to https://github.com/webdriverextensions/webdriverextensio
 # Features
 
 - factory to restart a fresh configured instance
-
 - support for http proxy
-
 - implementation of logging error handler
-
 - implementation of logging debug handler
-
 - support of concurrent webdriver usage
-
   - a wrapped webdriver, which allows only single access at a time
-  
   - a wrapped webdriver, which allows blocking while  an transaction is in progress
   
-
 
 # usage
 
