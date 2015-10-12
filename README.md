@@ -6,9 +6,28 @@ adds some essential webdriver util classes
 
 Note: it is similiar to https://github.com/webdriverextensions/webdriverextensions, but has more emphasis on web automation instead of testing
 
+# Features
+
+- factory to restart a fresh configured instance
+
+- support for http proxy
+
+- implementation of logging error handler
+
+- implementation of logging debug handler
+
+- support of concurrent webdriver usage
+
+  - a wrapped webdriver, which allows only single access at a time
+  
+  - a wrapped webdriver, which allows blocking while  an transaction is in progress
+  
+
+
 # usage
 
 in your `pom.xml`
+
 ```xml
 
 <project>
