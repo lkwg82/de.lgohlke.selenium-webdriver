@@ -11,6 +11,10 @@ import java.util.List;
  * enables multi-threaded interaction with the webdriver api
  */
 public class ConcurrentWebDriverFactory {
+    private ConcurrentWebDriverFactory() {
+        // ok
+    }
+
     /**
      * enables Webdriver usage of the same from different threads (handles locks internally). This locks an already in use instance.
      * <p/>
@@ -52,5 +56,4 @@ public class ConcurrentWebDriverFactory {
                                                          interfaces.toArray(new Class[interfaces.size()]),
                                                          invocationHandler);
     }
-
 }
