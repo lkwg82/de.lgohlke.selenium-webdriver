@@ -150,7 +150,7 @@
                         </goals>
                         <configuration>
                             <target>
-                                <echo message="Starting xvfb ... ${xvfb.display}" />
+                                <echo message="Starting xvfb ... ${xvfb.display}"/>
                                 <exec executable="bash" spawn="false" dir="${project.build.directory}">
                                     <arg value="${project.basedir}/src/test/resources/xvfb.sh" />
                                     <arg value="${xvfb.display}" />
@@ -431,7 +431,6 @@
             <properties>
                 <pitest-maven.goal>mutationCoverage</pitest-maven.goal>
                 <skipTests>true</skipTests>
-                <maven-pitest-plugin.version>1.1.7</maven-pitest-plugin.version>
             </properties>
             <build>
                 <plugins>
@@ -450,7 +449,7 @@
                     <plugin>
                         <groupId>org.pitest</groupId>
                         <artifactId>pitest-maven</artifactId>
-                        <version>${maven-pitest-plugin.version}</version>
+                        <version>1.1.7</version>
                         <configuration>
                             <environmentVariables>
                                 <DRIVERS_PATH>${drivers.installation.directory}</DRIVERS_PATH>
