@@ -37,21 +37,24 @@ class LockingWebDriverInvocationHandler implements InvocationHandler {
     }
 
     private Object synchronizedInvoke(LockingWebDriver proxy, Method method, Object[] args) throws IllegalAccessException, InvocationTargetException {
+        Object result = null;
         if (null == args && "lock".equals(method.getName())) {
             threadLock.lock();
             log.info("locking thread {}", Thread.currentThread().getId());
-            return (UnlockLockingWebdriver) proxy::unlock;
+            result = (UnlockLockingWebdriver) proxy::unlock;
         } else if (null == args && "unlock".equals(method.getName())) {
-            log.info("release lock of thread {} with holdcount {}", Thread.currentThread().getId(), threadLock.getHoldCount());
+            log.info("release lock of thread {} with holdcount {}",
+                     Thread.currentThread().getId(),
+                     threadLock.getHoldCount());
             threadLock.unlock();
-            return null;
         } else if (null == args && "isLocked".equals(method.getName())) {
             boolean locked = threadLock.isLocked();
             log.info("is locked {}", locked);
-            return locked && threadLock.getHoldCount() > 1;
+            result = locked && threadLock.getHoldCount() > 1;
         } else {
             log.info("calling {}", method.getName());
-            return method.invoke(wrappedDriver, args);
+            result = method.invoke(wrappedDriver, args);
         }
+        return result;
     }
 }
