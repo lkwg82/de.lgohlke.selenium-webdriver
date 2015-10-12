@@ -15,7 +15,7 @@ Note: it is similiar to https://github.com/webdriverextensions/webdriverextensio
 - support of concurrent webdriver usage
   - a wrapped webdriver, which allows only single access at a time
   - a wrapped webdriver, which allows blocking while  an transaction is in progress
-  
+
 
 # usage
 
@@ -63,7 +63,7 @@ in your `pom.xml`
                 </executions>
             </plugin>
             ...
-            
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
@@ -98,7 +98,7 @@ in your `pom.xml`
         </dependency>
     </dependencies>
 </project>
-            
+
 ```
 
 
@@ -108,13 +108,13 @@ in your `pom.xml`
   import org.junit.Rule;
   import org.junit.Test;
   import org.openqa.selenium.WebDriver;
-  
+
   import static org.assertj.core.api.Assertions.assertThat;
-  
+
   public class DemoTest {
       @Rule
       public DriverService driverService = new DriverService(DriverType.CHROME);
-      
+
       @Test
       public void test() throws InterruptedException {
           WebDriver driver = driverService.getDriver();
@@ -127,5 +127,30 @@ in your `pom.xml`
 # build instructions
 
 - install docker
-
 - run `run-tests.sh`
+
+# FAQ
+
+## How do I use a synchronized webdriver instance across multiple threads?
+
+```java
+ Webdriver wrappedDriver = ...
+
+ // each additional concurrent webdriver request will be blocked until completion of the first
+ Webdriver singleCommandSynchronized = ConcurrentWebDriverFactory.createSyncronized(wrappedDriver)
+```
+
+## How do I start a transation to protect a logical sequence of commands?
+
+```java
+
+Webdriver wrappedDriver = ...
+LockingWebDriver lockingDriver = ConcurrentWebDriverFactory.createLocking(wrappedDriver);
+         
+// blocking any other locking request and any other request from a different thread
+lockingDriver.lock();
+
+lockingDriver.get("http://www.lgohlke.de");
+
+lockingDriver.unlock();
+```
