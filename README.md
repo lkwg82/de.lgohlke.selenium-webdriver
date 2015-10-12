@@ -140,7 +140,7 @@ in your `pom.xml`
  Webdriver singleCommandSynchronized = ConcurrentWebDriverFactory.createSyncronized(wrappedDriver)
 ```
 
-## How do I start a transation to protect a logical sequence of commands?
+## How do I start a transaction to protect a logical sequence of commands?
 
 ```java
 
