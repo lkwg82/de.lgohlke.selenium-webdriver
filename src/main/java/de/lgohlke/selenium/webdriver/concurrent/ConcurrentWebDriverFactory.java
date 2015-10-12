@@ -32,7 +32,7 @@ public class ConcurrentWebDriverFactory {
      * adds capability to lock your webDriver instance, suitable for concurrent usage
      * <p/>
      * <pre>
-     *      LockingWebDriver lockingDriver = createLocking(webDriver);
+     *      LockingWebDriver lockingDriver = ConcurrentWebDriverFactory.createLocking(webDriver);
      *
      *      // blocking any other locking request
      *      lockingDriver.lock();
