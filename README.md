@@ -129,6 +129,11 @@ in your `pom.xml`
 - install docker
 - run `run-tests.sh`
 
+# release instructions
+
+- `mvn -P release release:prepare`
+- `mvn -P release release:perform`
+
 # FAQ
 
 ## How do I use a synchronized webdriver instance across multiple threads?
