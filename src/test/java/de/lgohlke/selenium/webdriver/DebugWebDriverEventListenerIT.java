@@ -3,7 +3,7 @@ package de.lgohlke.selenium.webdriver;
 import de.lgohlke.junit.HttpServerFromResource;
 import de.lgohlke.selenium.webdriver.junit.DriverService;
 import lombok.extern.slf4j.Slf4j;
-import org.assertj.core.api.StrictAssertions;
+import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -46,7 +46,7 @@ public class DebugWebDriverEventListenerIT {
         DebugWebDriverEventListener listener = new DebugWebDriverEventListener(pathFull);
         listener.takeScreenshot(driver, new String[]{"text"});
 
-        StrictAssertions.assertThat(new File(pathFull)).exists();
+        assertThat(new File(pathFull)).exists();
     }
 
     @Test
@@ -55,7 +55,7 @@ public class DebugWebDriverEventListenerIT {
 
         IntStream.of(0, 1, 2).forEach(i -> new DebugWebDriverEventListener(path).takeScreenshot(driver, new String[]{"text"}));
 
-        StrictAssertions.assertThat(testFolder.getRoot().list()).hasSize(3);
+        assertThat(testFolder.getRoot().list()).hasSize(3);
     }
 
     @Test

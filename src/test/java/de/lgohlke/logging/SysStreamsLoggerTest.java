@@ -1,8 +1,9 @@
 package de.lgohlke.logging;
 
 import lombok.RequiredArgsConstructor;
-import org.assertj.core.api.StrictAssertions;
 import org.junit.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class SysStreamsLoggerTest {
 
@@ -55,7 +56,7 @@ public class SysStreamsLoggerTest {
         SysStreamsLogger.bindSystemStreams(wrappingLogLevelFilter);
         try {
             System.out.println("DEBUG xx");
-            StrictAssertions.assertThat(wrappingLogLevelFilter.applied).isTrue();
+            assertThat(wrappingLogLevelFilter.applied).isTrue();
         } finally {
             SysStreamsLogger.unbindSystemStreams();
         }
@@ -69,7 +70,7 @@ public class SysStreamsLoggerTest {
         SysStreamsLogger.bindSystemStreams(wrappingLogLevelFilter);
         try {
             System.out.println("WARN xx");
-            StrictAssertions.assertThat(wrappingLogLevelFilter.applied).isFalse();
+            assertThat(wrappingLogLevelFilter.applied).isFalse();
         } finally {
             SysStreamsLogger.unbindSystemStreams();
         }

@@ -12,7 +12,7 @@ import org.openqa.selenium.support.events.WebDriverEventListener;
 import java.lang.reflect.Field;
 import java.util.List;
 
-import static org.assertj.core.api.StrictAssertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class DriverServiceTest {
     private DriverService driverService;

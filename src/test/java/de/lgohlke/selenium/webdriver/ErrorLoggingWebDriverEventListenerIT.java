@@ -30,8 +30,8 @@ import java.util.concurrent.TimeUnit;
 
 import static de.lgohlke.selenium.webdriver.DriverType.CHROME;
 import static de.lgohlke.selenium.webdriver.DriverType.PHANTOMJS;
-import static org.assertj.core.api.StrictAssertions.assertThat;
-import static org.assertj.core.api.StrictAssertions.fail;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 
 @Slf4j
 public class ErrorLoggingWebDriverEventListenerIT {

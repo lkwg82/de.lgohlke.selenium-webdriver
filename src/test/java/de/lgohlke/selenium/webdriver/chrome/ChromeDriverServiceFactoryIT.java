@@ -21,7 +21,7 @@ import java.io.OutputStream;
 import java.net.InetSocketAddress;
 
 import static de.lgohlke.junit.p.Mitmdump.MODE.SERVE;
-import static org.assertj.core.api.StrictAssertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @Slf4j
 public class ChromeDriverServiceFactoryIT {
