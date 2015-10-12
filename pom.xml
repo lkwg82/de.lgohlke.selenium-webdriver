@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>de.lgohlke.selenium</groupId>
     <artifactId>webdriver</artifactId>
-    <version>0.4-SNAPSHOT</version>
+    <version>20151012</version>
 
     <name>WebDriver library</name>
     <description>adds some essential webdriver util classes</description>
@@ -24,7 +23,7 @@
         <connection>scm:git:git@github.com:lkwg82/de.lgohlke.selenium-webdriver.git</connection>
         <developerConnection>scm:git:git@github.com:lkwg82/de.lgohlke.selenium-webdriver.git</developerConnection>
         <url>git@github.com:lkwg82/de.lgohlke.selenium-webdriver.git</url>
-        <tag>webdriver-0.3-SNAPSHOT</tag>
+        <tag>webdriver-20151012</tag>
     </scm>
 
     <developers>
@@ -151,11 +150,11 @@
                         </goals>
                         <configuration>
                             <target>
-                                <echo message="Starting xvfb ... ${xvfb.display}"/>
+                                <echo message="Starting xvfb ... ${xvfb.display}" />
                                 <exec executable="bash" spawn="false" dir="${project.build.directory}">
-                                    <arg value="${project.basedir}/src/test/resources/xvfb.sh"/>
-                                    <arg value="${xvfb.display}"/>
-                                    <arg value="start"/>
+                                    <arg value="${project.basedir}/src/test/resources/xvfb.sh" />
+                                    <arg value="${xvfb.display}" />
+                                    <arg value="start" />
                                 </exec>
                             </target>
                         </configuration>
@@ -168,11 +167,11 @@
                         </goals>
                         <configuration>
                             <target>
-                                <echo message="Ending xvfb ..."/>
+                                <echo message="Ending xvfb ..." />
                                 <exec executable="bash" spawn="false" dir="${project.build.directory}">
-                                    <arg value="${project.basedir}/src/test/resources/xvfb.sh"/>
-                                    <arg value="${xvfb.display}"/>
-                                    <arg value="stop"/>
+                                    <arg value="${project.basedir}/src/test/resources/xvfb.sh" />
+                                    <arg value="${xvfb.display}" />
+                                    <arg value="stop" />
                                 </exec>
                             </target>
                         </configuration>
