@@ -73,7 +73,7 @@
             <plugin>
                 <groupId>com.lewisd</groupId>
                 <artifactId>lint-maven-plugin</artifactId>
-                <version>0.0.10</version>
+                <version>0.0.11</version>
                 <configuration>
                     <onlyRunRules>
                         <rule>ExecutionId</rule>
@@ -113,7 +113,7 @@
                         <driver>
                             <name>phantomjs</name>
                             <platform>linux</platform>
-                            <version>1.9.7</version>
+                            <version>1.9.8</version>
                         </driver>
                     </drivers>
                     <installationDirectory>${drivers.installation.directory}</installationDirectory>
