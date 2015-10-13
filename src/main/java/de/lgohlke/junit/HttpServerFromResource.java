@@ -61,16 +61,16 @@ public class HttpServerFromResource extends ExternalResource {
                 name = name.replaceFirst("/+", "/");
                 URL resource = HttpServerFromResourceInner.class.getResource(name);
 
-                if (resource == null) {
-                    log.warn("could not find " + requestUri);
-                    httpExchange.sendResponseHeaders(404, 0);
-                } else {
-                    byte[] bytes = Files.readAllBytes(Paths.get(resource.getFile()));
-                    httpExchange.sendResponseHeaders(200, bytes.length);
+                try (OutputStream os = httpExchange.getResponseBody()) {
+                    if (resource == null) {
+                        log.warn("could not find " + requestUri);
+                        httpExchange.sendResponseHeaders(404, 0);
+                    } else {
+                        byte[] bytes = Files.readAllBytes(Paths.get(resource.getFile()));
+                        httpExchange.sendResponseHeaders(200, bytes.length);
 
-                    OutputStream os = httpExchange.getResponseBody();
-                    os.write(bytes);
-                    os.close();
+                        os.write(bytes);
+                    }
                 }
             };
         }
