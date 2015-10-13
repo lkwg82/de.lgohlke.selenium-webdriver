@@ -28,6 +28,8 @@ class LockingWebDriverInvocationHandler implements InvocationHandler {
             long runningStamp = runningLock.writeLock();
             try {
                 return synchronizedInvoke((LockingWebDriver) proxy, method, args);
+            } catch (InvocationTargetException e) {
+                throw e.getCause();
             } finally {
                 runningLock.unlockWrite(runningStamp);
             }

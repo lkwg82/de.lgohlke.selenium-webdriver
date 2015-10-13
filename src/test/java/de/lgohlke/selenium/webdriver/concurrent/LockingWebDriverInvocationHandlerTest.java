@@ -7,8 +7,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 
+import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.security.SecureRandom;
 import java.util.ArrayList;
@@ -21,6 +23,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.IntStream;
 
+import static junit.framework.TestCase.fail;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @Slf4j
@@ -120,6 +123,26 @@ public class LockingWebDriverInvocationHandlerTest {
             }
         }
         assertThat(found).isEqualTo(1000);
+    }
+
+    @Test
+    public void shouldNotThrowInvocationTargetException() throws NoSuchMethodException {
+
+        AbstractWebDriver driver = new AbstractWebDriver() {
+            @Override
+            public String getWindowHandle() {
+                throw new WebDriverException("test");
+            }
+        };
+        InvocationHandler invocationHandler = new LockingWebDriverInvocationHandler(driver);
+        Method            method            = WebDriver.class.getDeclaredMethod("getWindowHandle");
+
+        try {
+            invocationHandler.invoke(null, method, null);
+            fail("should not pass");
+        } catch (Throwable e) {
+            assertThat(e).isInstanceOf(WebDriverException.class);
+        }
     }
 
     @RequiredArgsConstructor
@@ -239,10 +262,8 @@ public class LockingWebDriverInvocationHandlerTest {
                 return (T) invoke;
             } catch (Throwable e) {
                 log.error(e.getMessage(), e);
+                throw new RuntimeException(e);
             }
-            return null;
         }
     }
-
-
 }

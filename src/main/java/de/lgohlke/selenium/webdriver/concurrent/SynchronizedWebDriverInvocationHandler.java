@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.WebDriver;
 
 import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.concurrent.locks.StampedLock;
 
@@ -20,6 +21,8 @@ class SynchronizedWebDriverInvocationHandler implements InvocationHandler {
         long stamp = lock.writeLock();
         try {
             return method.invoke(wrappedDriver, args);
+        } catch (InvocationTargetException e) {
+            throw e.getCause();
         } finally {
             lock.unlockWrite(stamp);
         }
