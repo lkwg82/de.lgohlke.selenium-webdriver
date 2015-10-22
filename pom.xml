@@ -60,7 +60,7 @@
         <drivers.installation.directory>/tmp/webdrivers-${user.name}</drivers.installation.directory>
         <phantomjsdriver.version>1.2.0</phantomjsdriver.version>
         <xvfb.display>20</xvfb.display>
-        <maven.build.timestamp.format>ddHHmmSSS</maven.build.timestamp.format>
+        <maven.build.timestamp.format>mmssSS</maven.build.timestamp.format>
     </properties>
 
     <prerequisites>

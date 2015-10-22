@@ -8,7 +8,7 @@ cmd=$2
 
 case $cmd in
  start)
-    Xvfb :$display.0 &
+    Xvfb :$display &
     echo -n $! > xvfb.$display.pid
     echo "started xvfb with display $display"
  ;;
