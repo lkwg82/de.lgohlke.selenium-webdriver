@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.os.ProcessUtils;
 import org.openqa.selenium.remote.service.DriverService;
 
@@ -17,6 +19,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import java.util.stream.IntStream;
 
 @Slf4j
 public class FailedServiceStartRestarterIT {
@@ -27,7 +30,14 @@ public class FailedServiceStartRestarterIT {
     @Test
     public void test() throws Exception {
         FailedServiceStartRestarter restarter = new FailedServiceStartRestarter(5, TimeUnit.SECONDS);
-        restarter.start(factory);
+        IntStream.range(0, 100).parallel().forEach(i -> {
+            ChromeDriverService service = factory.createService();
+            try {
+                restarter.start(factory, service);
+            } finally {
+                service.stop();
+            }
+        });
     }
 
     @RequiredArgsConstructor
@@ -35,15 +45,14 @@ public class FailedServiceStartRestarterIT {
         private final int      timeout;
         private final TimeUnit timeUnit;
 
-        public DriverService start(DriverServiceFactory factory) {
-            DriverService driverService = factory.createService();
-
-            boolean isStarted = false;
-            for (int i = 0; i < 10 && !isStarted; i++) {
+        public WebDriver start(DriverServiceFactory factory, DriverService driverService) {
+            WebDriver driver    = null;
+            boolean   isStarted = false;
+            for (int i = 0; i < 10 && driver == null; i++) {
                 log.error("trying to start {}", i);
-                isStarted = startService(driverService);
+                driver = startServiceAndCreateWebdriver(driverService, factory);
                 log.warn("is started: {}", isStarted);
-                if (!isStarted) {
+                if (driver == null) {
                     try {
                         TimeUnit.SECONDS.sleep(2);
                     } catch (InterruptedException e) {
@@ -51,20 +60,20 @@ public class FailedServiceStartRestarterIT {
                     }
                 }
             }
-            return driverService;
+            return driver;
         }
 
-        private Boolean startService(DriverService driverService) {
+        private WebDriver startServiceAndCreateWebdriver(DriverService driverService, DriverServiceFactory factory) {
             ExecutorService service = Executors.newFixedThreadPool(1);
 
-            Callable<Boolean> startJob = () -> {
+            Callable<WebDriver> startJob = () -> {
                 log.warn("starting");
                 driverService.start();
-                log.warn("started");
-                return driverService.isRunning();
+                log.warn("try to create webdriver");
+                return factory.createWebDriver(driverService);
             };
 
-            Future<Boolean> startFuture = service.submit(startJob);
+            Future<WebDriver> startFuture = service.submit(startJob);
             try {
                 try {
                     log.warn("waiting for result");
@@ -74,7 +83,7 @@ public class FailedServiceStartRestarterIT {
                     if (driverService.isRunning()) {
                         driverService.stop();
                     }
-                    return false;
+                    return null;
                 }
             } catch (TimeoutException e) {
                 log.error(e.getMessage(), e);
@@ -97,7 +106,7 @@ public class FailedServiceStartRestarterIT {
                 log.error("try to kill the process: {}", process);
                 int exitCode = ProcessUtils.killProcess(process);
                 log.error("killed the process, exit : {}", exitCode);
-                return false;
+                return null;
             } finally {
                 service.shutdownNow();
             }
