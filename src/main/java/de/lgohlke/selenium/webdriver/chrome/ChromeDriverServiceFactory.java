@@ -8,13 +8,10 @@ import de.lgohlke.selenium.webdriver.DriverArgumentsBuilder;
 import de.lgohlke.selenium.webdriver.DriverServiceFactory;
 import de.lgohlke.selenium.webdriver.ExecutablePath;
 import lombok.extern.slf4j.Slf4j;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeDriverService.Builder;
-import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -47,10 +44,6 @@ public class ChromeDriverServiceFactory extends DriverServiceFactory<ChromeDrive
 
     public ChromeDriverServiceFactory(ChromeDriverConfiguration config) {
         super(config);
-    }
-
-    public WebDriver createWebDriver(ChromeDriverService service) throws IOException {
-        return new RemoteWebDriver(service.getUrl(), getDriverConfiguration().createCapabilities());
     }
 
     public DriverArgumentsBuilder createServiceArgumentsBuilder() {

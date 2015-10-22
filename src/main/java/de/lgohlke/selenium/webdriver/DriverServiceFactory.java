@@ -3,6 +3,7 @@ package de.lgohlke.selenium.webdriver;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.remote.service.DriverService;
 
 import java.io.IOException;
@@ -14,7 +15,9 @@ public abstract class DriverServiceFactory<S extends DriverService, T extends Dr
 
     public abstract S createService(String... args);
 
-    public abstract WebDriver createWebDriver(S service) throws IOException;
+    public WebDriver createWebDriver(S service) throws IOException {
+        return new RemoteWebDriver(service.getUrl(), getDriverConfiguration().createCapabilities());
+    }
 
     public abstract DriverArgumentsBuilder createServiceArgumentsBuilder();
 }

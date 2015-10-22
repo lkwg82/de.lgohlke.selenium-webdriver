@@ -8,13 +8,10 @@ import de.lgohlke.selenium.webdriver.DriverArgumentsBuilder;
 import de.lgohlke.selenium.webdriver.DriverServiceFactory;
 import de.lgohlke.selenium.webdriver.ExecutablePath;
 import lombok.extern.slf4j.Slf4j;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriverService;
-import org.openqa.selenium.remote.RemoteWebDriver;
 import org.slf4j.bridge.SLF4JBridgeHandler;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -38,10 +35,6 @@ public class PhantomJSDriverServiceFactory extends DriverServiceFactory<PhantomJ
 
     public PhantomJSDriverServiceFactory(PhantomJSDriverConfiguration driverConfiguration) {
         super(driverConfiguration);
-    }
-
-    public WebDriver createWebDriver(PhantomJSDriverService service) throws IOException {
-        return new RemoteWebDriver(service.getUrl(), getDriverConfiguration().createCapabilities());
     }
 
     public PhantomJSDriverService createService(String... arguments) {
