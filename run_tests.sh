@@ -9,4 +9,4 @@ if [ -z "$MAVEN_REPODIR" ]; then
 fi
 
 docker build -t test .
-docker run $MAVEN_REPODIR -v /tmp/webdriver-tests-$USER:/tmp/webdrivers-root -v /dev/shm/:/dev/shm -t test ./run_inside_docker.sh
+docker run -m 1G $MAVEN_REPODIR -v /tmp/webdriver-tests-$USER:/tmp/webdrivers-root -v /dev/shm/:/dev/shm -t test ./run_inside_docker.sh
