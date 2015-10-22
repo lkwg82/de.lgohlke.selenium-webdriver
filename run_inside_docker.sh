@@ -7,4 +7,4 @@ set -e
 
 # actual running tests
 #mvn clean
-timeout -k 5m 4m mvn integration-test -Dit.test=ChromeDriverServiceFactoryIT -Dxvfb.display=20
+timeout --preserve-status --kill-after 5m 4m mvn integration-test -Dit.test=ChromeDriverServiceFactoryIT -Dxvfb.display=20
