@@ -7,4 +7,4 @@ set -e
 
 # actual running tests
 #mvn clean
-timeout --preserve-status --kill-after 1m 30s mvn integration-test -Dit.test=DEBUGChromeDriverServiceFactoryIT -Dxvfb.display=20
+timeout --preserve-status --kill-after 90s 1m mvn integration-test -Dit.test=DEBUGChromeDriverServiceFactoryIT -Dxvfb.display=20
