@@ -63,6 +63,7 @@ public class ChromeDriverServiceFactory extends DriverServiceFactory<ChromeDrive
 
         return new Builder()
                 .usingDriverExecutable(EXECUTABLE)
+                .withVerbose(log.isInfoEnabled())
                 .withEnvironment(environment)
                 .usingAnyFreePort().build();
     }
