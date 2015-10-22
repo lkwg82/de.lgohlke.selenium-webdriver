@@ -25,22 +25,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @Slf4j
 public class ChromeDriverServiceFactoryIT {
-    private final static ChromeDriverConfiguration config = new ChromeDriverConfiguration();
-    private final static ChromeDriverServiceFactory factory         = new ChromeDriverServiceFactory(config);
 
-    static {
-        config.addCommandlineSwitch("--no-sandbox");
-    }
-
+    private final ChromeDriverServiceFactory factory         = new ChromeDriverServiceFactory(new ChromeDriverConfiguration());
     @Rule
-    public               TemporaryFolder            temporaryFolder = new TemporaryFolder();
-    private              FreeportProber             proxyPortProber = new FreeportProber();
-    private              Mitmdump                   mitmdump        = new Mitmdump(SERVE,
-                                                                                   "/proxy.flow",
-                                                                                   proxyPortProber);
+    public        TemporaryFolder            temporaryFolder = new TemporaryFolder();
+    private       FreeportProber             proxyPortProber = new FreeportProber();
+    private       Mitmdump                   mitmdump        = new Mitmdump(SERVE, "/proxy.flow", proxyPortProber);
     @Rule
-    public               TestRule                   chain           = RuleChain.outerRule(proxyPortProber).around(
-            mitmdump);
+    public        TestRule                   chain           = RuleChain.outerRule(proxyPortProber).around(mitmdump);
     private HttpServer          httpServer;
     private ChromeDriverService driverService;
 
