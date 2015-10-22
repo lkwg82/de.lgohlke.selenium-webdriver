@@ -42,7 +42,7 @@ public class FailedServiceStartRestarterIT {
             for (int i = 0; i < 10 && !isStarted; i++) {
                 log.error("trying to start {}", i);
                 isStarted = startService(driverService);
-
+                log.warn("is started: {}", isStarted);
                 if (!isStarted) {
                     try {
                         TimeUnit.SECONDS.sleep(2);
@@ -58,7 +58,9 @@ public class FailedServiceStartRestarterIT {
             ExecutorService service = Executors.newFixedThreadPool(1);
 
             Callable<Boolean> startJob = () -> {
+                log.warn("starting");
                 driverService.start();
+                log.warn("started");
                 return driverService.isRunning();
             };
 

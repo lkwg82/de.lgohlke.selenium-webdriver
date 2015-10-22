@@ -24,7 +24,9 @@ public class DEBUGChromeDriverServiceFactoryIT {
         ChromeDriverService driverService = (ChromeDriverService) serviceStartRestarter.start(factory);
 
         try {
+            log.warn("try to create webdriver");
             WebDriver webDriver = factory.createWebDriver(driverService);
+            log.warn("created webdriver");
             String    url       = "chrome://version/";
             webDriver.get(url);
             String currentUrl = webDriver.getCurrentUrl();
