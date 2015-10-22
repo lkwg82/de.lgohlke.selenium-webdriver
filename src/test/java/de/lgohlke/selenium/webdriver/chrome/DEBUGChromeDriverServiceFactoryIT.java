@@ -1,11 +1,13 @@
 package de.lgohlke.selenium.webdriver.chrome;
 
+import de.lgohlke.selenium.webdriver.FailedServiceStartRestarterIT;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriverService;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -15,12 +17,15 @@ public class DEBUGChromeDriverServiceFactoryIT {
 
     @Test
     public void startAndStop() throws IOException {
-        ChromeDriverService driverService = factory.createService();
+        FailedServiceStartRestarterIT.FailedServiceStartRestarter serviceStartRestarter = new FailedServiceStartRestarterIT.FailedServiceStartRestarter(
+                5,
+                TimeUnit.SECONDS);
 
-        driverService.start();
+        ChromeDriverService driverService = (ChromeDriverService) serviceStartRestarter.start(factory);
+
         try {
             WebDriver webDriver = factory.createWebDriver(driverService);
-            String    url       = "chrome://version";
+            String    url       = "chrome://version/";
             webDriver.get(url);
             String currentUrl = webDriver.getCurrentUrl();
 
