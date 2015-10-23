@@ -6,7 +6,7 @@ if [ -z "$MAVEN_REPODIR" ]; then
     export MAVEN_REPODIR="-v /tmp/m2_docker:/root/.m2/repository";
 fi
 
-args="--name=webdriver-test-$$ -m 1G --memory-swap=-1 -v /tmp/webdriver-tests-$USER:/tmp/webdrivers-root -v /dev/shm/:/dev/shm -v /tmp/webdrivers_docker:/root/tmp_webdrivers $MAVEN_REPODIR "
+args="--name=webdriver-test-$$ -m 1G --memory-swap=-1 -v /tmp/webdriver-tests-$USER:/tmp/webdrivers-root -v /tmp/webdrivers_docker:/root/tmp_webdrivers $MAVEN_REPODIR "
 
 rm -rf target/*
 docker build -t test-$$ . | tee docker_build.log
