@@ -12,7 +12,7 @@ import static junit.framework.TestCase.fail;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class SynchronizedWebDriverInvocationHandlerTest {
-    @Test(timeout = 500)
+    @Test(timeout = 2000)
     public void shouldNotBlockWhenRunningSequentially() throws Throwable {
         AbstractWebDriver wrappedDriver = new AbstractWebDriver() {
             @Override
