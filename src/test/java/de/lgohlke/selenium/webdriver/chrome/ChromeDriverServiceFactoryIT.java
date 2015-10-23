@@ -124,7 +124,7 @@ public class ChromeDriverServiceFactoryIT {
 
         WebDriver webDriver = factory.createWebDriver(driverService);
         webDriver.get("https://www.google.de");
-        assertThat(webDriver.getPageSource().length()).isBetween(110000, 120022);
+        assertThat(webDriver.getPageSource().length()).isBetween(100000, 120022);
     }
 
     @Test(expected = IllegalArgumentException.class)
