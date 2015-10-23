@@ -127,7 +127,7 @@ in your `pom.xml`
 # build instructions
 
 - install docker
-- run `run-tests.sh`
+- run `run-docker.sh`
 
 # release instructions
 
