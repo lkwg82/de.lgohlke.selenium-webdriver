@@ -7,13 +7,26 @@
         <Console name="consoleAppender" target="SYSTEM_OUT">
             <PatternLayout pattern="%d{ABSOLUTE} %5p %30c{1} -[%-30t] %m%n"/>
         </Console>
+
+        <RollingFile name="log.file" fileName="test.log" filePattern="test.log.%d{dd-MM-yyyy}"
+                     append="true">
+            <ThresholdFilter level="trace" onMatch="ACCEPT"/>
+            <PatternLayout pattern="%d{ABSOLUTE} %5p %30t %30c{2} - %m%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="20 MB"/>
+            </Policies>
+        </RollingFile>
     </Appenders>
 
     <Loggers>
         <Logger name="de.lgohlke.selenium.webdriver.ErrorLoggingWebDriverEventListener" level="FATAL"/>
 
-        <Root level="info">
+        <Root level="error">
             <AppenderRef ref="consoleAppender"/>
+        </Root>
+        <Root level="info">
+            <appender-ref ref="log.file"/>
         </Root>
     </Loggers>
 </Configuration>

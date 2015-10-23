@@ -6,3 +6,4 @@
 /example/.idea
 /example/*.iml
 /pitest.history
+*.log
