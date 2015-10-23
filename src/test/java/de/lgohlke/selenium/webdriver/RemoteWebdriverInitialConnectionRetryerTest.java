@@ -14,11 +14,15 @@ import java.util.concurrent.atomic.LongAdder;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @Slf4j
 public class RemoteWebdriverInitialConnectionRetryerTest {
-    private RemoteWebdriverInitialConnectionRetryer restarter     = new RemoteWebdriverInitialConnectionRetryer(500, TimeUnit.MILLISECONDS, 5);
+    private RemoteWebdriverInitialConnectionRetryer restarter     = new RemoteWebdriverInitialConnectionRetryer(500,
+                                                                                                                TimeUnit.MILLISECONDS,
+                                                                                                                5);
     private ChromeDriverService                     driverService = mock(ChromeDriverService.class);
     private ChromeDriverServiceFactory              factory       = mock(ChromeDriverServiceFactory.class);
 
@@ -29,12 +33,28 @@ public class RemoteWebdriverInitialConnectionRetryerTest {
     }
 
     @Test
-    public void tryUntilReachLimit() throws Exception {
-        when(factory.createWebDriver(driverService)).thenAnswer(invocationOnMock -> null);
+    public void shouldTimeoutWhileConnecting() throws Exception {
+        when(driverService.isRunning()).thenReturn(true);
+        when(factory.createWebDriver(driverService)).thenAnswer(invocationOnMock -> {
+            TimeUnit.MILLISECONDS.sleep(600);
+            return null;
+        });
 
         WebDriver webDriver = restarter.start(factory, driverService);
 
         assertThat(webDriver).isNull();
+        verify(driverService, times(10)).isRunning();
+        verify(driverService, times(5)).stop();
+    }
+
+    @Test
+    public void shouldStartDriverService() throws Exception {
+        when(factory.createWebDriver(driverService)).thenAnswer(invocationOnMock -> mock(WebDriver.class));
+        when(driverService.isRunning()).thenReturn(false);
+
+        restarter.start(factory, driverService);
+
+        verify(driverService, times(1)).start();
     }
 
     @Test
