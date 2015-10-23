@@ -57,7 +57,7 @@
         <slf4j.version>1.7.12</slf4j.version>
         <log4j.version>2.4.1</log4j.version>
 
-        <drivers.installation.directory>/tmp/webdrivers-${user.name}</drivers.installation.directory>
+        <drivers.installation.directory>${env.HOME}/tmp_webdrivers</drivers.installation.directory>
         <phantomjsdriver.version>1.2.0</phantomjsdriver.version>
         <xvfb.display>20</xvfb.display>
         <maven.build.timestamp.format>mmssSS</maven.build.timestamp.format>
@@ -184,7 +184,6 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.19</version>
                 <configuration>
-                    <skipTests>true</skipTests>
                     <runOrder>random</runOrder>
                     <includes>
                         <include>**/*Test.java</include>
@@ -293,6 +292,12 @@
             <groupId>org.slf4j</groupId>
             <artifactId>jul-to-slf4j</artifactId>
             <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>1.10.19</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
@@ -438,6 +443,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-jar-plugin</artifactId>
+                        <version>2.5</version>
                         <executions>
                             <execution>
                                 <id>default-jar</id>
