@@ -11,7 +11,7 @@ args="--name=webdriver-test-$$ -m 1G --memory-swap=-1 -v /tmp/webdriver-tests-$U
 rm -rf target/*
 docker build -t test-$$ . | tee docker_build.log
 export IMAGE_ID=$(tail -n1 docker_build.log| cut -d\  -f3)
-export CID=$(docker run -d $args $IMAGE_ID bash -c 'while(true);do sleep 1;done')
+export CID=$(docker run -d $args $IMAGE_ID bash -c 'while true; do sleep 1; done')
 
 echo -n $IMAGE_ID > docker_IMAGE_ID
 echo -n $CID > docker_CID
@@ -21,7 +21,7 @@ function cleanup {
      echo "don't cleanup leave it for jenkins"
      exit 0
   fi
-  run_docker_cleanup.sh
+  ./run_docker_cleanup.sh
 }
 trap cleanup EXIT INT
 
