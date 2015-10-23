@@ -8,7 +8,7 @@ fi
 
 args="--name=webdriver-test-$$ -m 1G --memory-swap=-1 -v /tmp/webdriver-tests-$USER:/tmp/webdrivers-root -v /dev/shm/:/dev/shm -v /tmp/webdrivers_docker:/root/tmp_webdrivers $MAVEN_REPODIR "
 
-rm -rf docker_target
+rm -rf target/*
 docker build -t test-$$ . | tee docker_build.log
 export IMAGE_ID=$(tail -n1 docker_build.log| cut -d\  -f3)
 export CID=$(docker run -d $args $IMAGE_ID bash -c 'while(true);do sleep 1;done')
