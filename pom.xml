@@ -497,6 +497,9 @@
                                 <param>de.lgohlke.**Test</param>
                                 <param>de.lgohlke.**IT</param>
                             </targetTests>
+                            <excludedClasses>
+                                <excludedClass>de.lgohlke.selenium.webdriver.AbstractWebDriver</excludedClass>
+                            </excludedClasses>
                             <threads>4</threads>
                             <timestampedReports>false</timestampedReports>
                             <verbose>false</verbose>
