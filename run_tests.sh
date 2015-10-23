@@ -1,8 +1,6 @@
 #!/bin/bash
 
 set -e
-set -x
-# $ export MAVEN_REPODIR="-v /tmp/m2_docker:/root/.m2/repository"; ./run_tests.sh
 
 if [ -z "$MAVEN_REPODIR" ]; then
     export MAVEN_REPODIR="-v /tmp/m2_docker:/root/.m2/repository";
@@ -19,11 +17,11 @@ echo -n $IMAGE_ID > docker_IMAGE_ID
 echo -n $CID > docker_CID
 
 function cleanup {
-  docker cp $CID:/home/build/target docker_target
-
-  #docker kill $CID
-  docker rm  -f $CID
-  docker rmi  $IMAGE_ID
+  if [ -n "$JENKINS_HOME" ]; then
+     echo "don't cleanup leave it for jenkins"
+     exit 0
+  fi
+  ./run_tests_cleanup.sh
 }
 trap cleanup EXIT INT
 
