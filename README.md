@@ -1,5 +1,4 @@
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/de.lgohlke.selenium/webdriver/badge.svg?style=flat-square)](https://search.maven.org/#search%7Cga%7C1%7Cg%3Ade.lgohlke.selenium)
-
 [![Build Status](https://travis-ci.org/lkwg82/de.lgohlke.selenium-webdriver.png)](https://travis-ci.org/lkwg82/de.lgohlke.selenium-webdriver)
 
 # de.lgohlke.selenium-webdriver
