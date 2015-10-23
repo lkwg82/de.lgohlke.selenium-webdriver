@@ -10,19 +10,25 @@ import org.openqa.selenium.remote.service.DriverService;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * the idea is to have a restartable driver configuration
+ */
 @RequiredArgsConstructor
 public abstract class DriverServiceFactory<S extends DriverService, T extends DriverConfiguration> {
     @Getter
     private final T driverConfiguration;
     @Setter
-    private RemoteWebdriverInitialConnectionRetryer remoteWebdriverInitialConnectionRetryer = new RemoteWebdriverInitialConnectionRetryer(2, TimeUnit.SECONDS, 5);
+    private RemoteWebdriverInitialConnectionRetryer connectionRetryer = new RemoteWebdriverInitialConnectionRetryer(
+            2,
+            TimeUnit.SECONDS,
+            5);
 
     public abstract S createService(String... args);
 
     public WebDriver createWebDriver(S service) throws IOException {
         DriverServiceFactory<S, T> outerFactory = this;
 
-        return remoteWebdriverInitialConnectionRetryer.start(new DriverServiceFactory<S, T>(driverConfiguration) {
+        return connectionRetryer.start(new DriverServiceFactory<S, T>(driverConfiguration) {
             @Override
             public S createService(String... args) {
                 return outerFactory.createService(args);
