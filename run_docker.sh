@@ -2,11 +2,17 @@
 
 set -e
 
-if [ -z "$MAVEN_REPODIR" ]; then
-    export MAVEN_REPODIR="-v /tmp/m2_docker:/root/.m2/repository";
-fi
+DOCKER_USER_TMP="/tmp/docker_$USER"
+DOCKER_M2="$DOCKER_USER_TMP/m2"
+DOCKER_WEBDRIVER="$DOCKER_USER_TMP/webdriver"
 
-args="--name=webdriver-test-$$ -m 1G --memory-swap=-1 -v /tmp/webdrivers_docker:/root/tmp_webdrivers $MAVEN_REPODIR "
+mkdir -p $DOCKER_M2           # create the directory before
+mkdir -p $DOCKER_WEBDRIVER    # to have the correct ownership
+
+args="--name=webdriver-test-$$ -m 1G --memory-swap=-1 \
+    -v /dev/shm:/dev/shm \
+    -v $DOCKER_M2:/home/build/.m2/repository \
+    -v $DOCKER_WEBDRIVER:/home/build/tmp_webdrivers "
 
 rm -rf target/*
 docker build -t test-$$ . | tee docker_build.log
@@ -25,6 +31,13 @@ function cleanup {
 }
 trap cleanup EXIT INT
 
-docker exec $CID ./run_tests.sh
+UID_OUTSIDE=$(id --user)
+GID_OUTSIDE=$(id --group)
+USER_INSIDE_DOCKER="build"
+
+docker exec $CID useradd --uid $UID_OUTSIDE $USER_INSIDE_DOCKER
+docker exec $CID chown -R $USER_INSIDE_DOCKER .
+docker exec $CID su $USER_INSIDE_DOCKER -c './run_tests.sh'
+
 
 
