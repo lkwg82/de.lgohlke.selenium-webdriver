@@ -338,7 +338,7 @@
                             </execution>
                             <execution>
                                 <id>jacoco-site</id>
-                                <phase>verify</phase>
+                                <phase>post-integration-test</phase>
                                 <goals>
                                     <goal>report</goal>
                                 </goals>
