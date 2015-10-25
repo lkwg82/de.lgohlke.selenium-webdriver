@@ -5,6 +5,7 @@ IMAGE_ID=$(cat docker_IMAGE_ID)
 
 rm -rf target
 docker cp $CONTAINER_ID:/home/build/target .
+docker cp $CONTAINER_ID:/home/build/installed_software.log target
 
 docker kill  $CONTAINER_ID
 docker rm -f $CONTAINER_ID
