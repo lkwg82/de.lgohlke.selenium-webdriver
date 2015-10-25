@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -e
-
 DOCKER_USER_TMP="/tmp/docker_$USER"
 DOCKER_M2="$DOCKER_USER_TMP/m2"
 DOCKER_WEBDRIVER="$DOCKER_USER_TMP/webdriver"
@@ -9,7 +7,7 @@ DOCKER_WEBDRIVER="$DOCKER_USER_TMP/webdriver"
 mkdir -p $DOCKER_M2           # create the directory before
 mkdir -p $DOCKER_WEBDRIVER    # to have the correct ownership
 
-args="--name=webdriver-test-$$ -m 1G --memory-swap=-1 \
+args="--name=webdriver-test-$$ -m 1500M --memory-swap=-1 \
     -v /dev/shm:/dev/shm \
     -v $DOCKER_M2:/home/build/.m2/repository \
     -v $DOCKER_WEBDRIVER:/home/build/tmp_webdrivers "
@@ -23,9 +21,10 @@ echo -n $IMAGE_ID > docker_IMAGE_ID
 echo -n $CONTAINER_ID > docker_CID
 
 function cleanup {
+  echo "exit code $?"
   if [ -n "$JENKINS_HOME" ]; then
      echo "don't cleanup leave it for jenkins"
-     exit 0
+     exit $?
   fi
   ./run_docker_cleanup.sh
 }
