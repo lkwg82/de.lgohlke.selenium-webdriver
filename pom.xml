@@ -150,8 +150,7 @@
                         </goals>
                         <configuration>
                             <target>
-                                <echo message="Starting xvfb ... ${xvfb.display}" />
-                                <exec executable="bash" spawn="false" dir="${project.build.directory}">
+                                <exec executable="bash" spawn="false" dir="${project.build.directory}" failonerror="true">
                                     <arg value="${project.basedir}/src/test/resources/xvfb.sh" />
                                     <arg value="${xvfb.display}" />
                                     <arg value="start" />
