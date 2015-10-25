@@ -16,11 +16,11 @@ args="--name=webdriver-test-$$ -m 1G --memory-swap=-1 \
 
 rm -rf target/*
 docker build -t test-$$ . | tee docker_build.log
-export IMAGE_ID=$(tail -n1 docker_build.log| cut -d\  -f3)
-export CID=$(docker run -d $args $IMAGE_ID bash -c 'while true; do sleep 10000; done')
+IMAGE_ID=$(tail -n1 docker_build.log| cut -d\  -f3)
+CONTAINER_ID=$(docker run -d $args $IMAGE_ID bash -c 'while true; do sleep 10000; done')
 
 echo -n $IMAGE_ID > docker_IMAGE_ID
-echo -n $CID > docker_CID
+echo -n $CONTAINER_ID > docker_CID
 
 function cleanup {
   if [ -n "$JENKINS_HOME" ]; then
@@ -35,9 +35,9 @@ UID_OUTSIDE=$(id --user)
 GID_OUTSIDE=$(id --group)
 USER_INSIDE_DOCKER="build"
 
-docker exec $CID useradd --uid $UID_OUTSIDE $USER_INSIDE_DOCKER
-docker exec $CID chown -R $USER_INSIDE_DOCKER .
-docker exec $CID su $USER_INSIDE_DOCKER -c './run_tests.sh'
+docker exec $CONTAINER_ID useradd --uid $UID_OUTSIDE $USER_INSIDE_DOCKER
+docker exec $CONTAINER_ID chown -R $USER_INSIDE_DOCKER .
+docker exec $CONTAINER_ID su $USER_INSIDE_DOCKER -c './run_tests.sh'
 
 
 
