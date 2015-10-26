@@ -5,7 +5,7 @@ IMAGE_ID=$(cat docker_IMAGE_ID)
 
 rm -rf target
 docker cp $CONTAINER_ID:/home/build/target .
-docker cp $CONTAINER_ID:/home/build/installed_software.log target
+docker cp $CONTAINER_ID:/home/build/installed_software.log target/
 
 # check for issues (low memory etc.)
 if [ $(docker exec $CONTAINER_ID dmesg -T | grep docker-$CONTAINER_ID | wc -l) -gt 0 ]; then
