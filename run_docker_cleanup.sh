@@ -3,6 +3,8 @@
 CONTAINER_ID=$(cat docker_CID)
 IMAGE_ID=$(cat docker_IMAGE_ID)
 
+docker ps --format="{{.ID }}" --no-trunc | grep $CONTAINER_ID > /dev/null || exit 0
+
 rm -rf target
 docker cp $CONTAINER_ID:/home/build/target .
 docker cp $CONTAINER_ID:/home/build/installed_software.log target/
