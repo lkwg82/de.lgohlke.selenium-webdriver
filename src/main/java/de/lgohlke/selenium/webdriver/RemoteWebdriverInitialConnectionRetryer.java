@@ -30,7 +30,7 @@ public class RemoteWebdriverInitialConnectionRetryer {
         for (int i = 0; i < retries && driver == null; i++) {
             log.info("trying to start {}/{} (attempt/max attempts)", i, retries);
             driver = startServiceAndCreateWebdriver(driverService, factory);
-            log.warn("is started: {}", driver == null);
+            log.info("is started: {}", driver == null);
             if (driver == null) {
                 try {
                     timeUnit.sleep(2);
