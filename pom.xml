@@ -4,7 +4,7 @@
 
     <groupId>de.lgohlke.selenium</groupId>
     <artifactId>webdriver</artifactId>
-    <version>20151031-SNAPSHOT</version>
+    <version>20151031</version>
 
     <name>WebDriver library</name>
     <description>adds some essential webdriver util classes</description>
@@ -23,7 +23,7 @@
         <connection>scm:git:git@github.com:lkwg82/de.lgohlke.selenium-webdriver.git</connection>
         <developerConnection>scm:git:git@github.com:lkwg82/de.lgohlke.selenium-webdriver.git</developerConnection>
         <url>git@github.com:lkwg82/de.lgohlke.selenium-webdriver.git</url>
-        <tag>webdriver-0.3-SNAPSHOT</tag>
+        <tag>webdriver-20151031</tag>
     </scm>
 
     <developers>
