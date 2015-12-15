@@ -3,13 +3,7 @@ package de.lgohlke.selenium.webdriver;
 import com.google.common.annotations.VisibleForTesting;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.events.AbstractWebDriverEventListener;
 
 import javax.imageio.ImageIO;
@@ -25,7 +19,7 @@ import java.util.Date;
 @Slf4j
 @RequiredArgsConstructor
 public class DebugWebDriverEventListener extends AbstractWebDriverEventListener {
-    private static final String DATE_FORMAT    = "YYYYddMM_HHmmss_SSS";
+    private static final String DATE_FORMAT    = "YYYYMMdd_HHmmss_SSS";
     private final        String baseFolderName = createTimeStamp();
     private final String path;
 
