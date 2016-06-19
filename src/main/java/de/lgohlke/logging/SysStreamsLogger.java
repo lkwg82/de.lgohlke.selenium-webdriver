@@ -1,5 +1,6 @@
 package de.lgohlke.logging;
 
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -9,12 +10,16 @@ import java.util.concurrent.locks.ReentrantLock;
 /**
  * based on http://stackoverflow.com/questions/11187461/redirect-system-out-and-system-err-to-slf4j
  */
+@Slf4j
 public final class SysStreamsLogger {
-    private final static Logger SYS_OUT_LOGGER = LoggerFactory.getLogger("SYSOUT");
-    private final static Logger SYS_ERR_LOGGER = LoggerFactory.getLogger("SYSERR");
+    private static final Logger SYS_OUT_LOGGER = LoggerFactory.getLogger("SYSOUT");
+    private static final Logger SYS_ERR_LOGGER = LoggerFactory.getLogger("SYSERR");
     private static final PrintStream SYSOUT = System.out;
     private static final PrintStream SYSERR = System.err;
-    private final static ReentrantLock LOCK = new ReentrantLock();
+    private static final ReentrantLock LOCK = new ReentrantLock();
+
+    private static LoggingOutputStream out;
+    private static LoggingOutputStream err;
 
     private SysStreamsLogger() {
         // ok
@@ -24,9 +29,14 @@ public final class SysStreamsLogger {
 
         LOCK.lock();
         try {
+
+            if (out != null) {
+                log.warn("tried to rebound");
+                return;
+            }
             // Enable autoflush
-            LoggingOutputStream out = new LoggingOutputStream(SYS_OUT_LOGGER);
-            LoggingOutputStream err = new LoggingOutputStream(SYS_ERR_LOGGER);
+            out = new LoggingOutputStream(SYS_OUT_LOGGER);
+            err = new LoggingOutputStream(SYS_ERR_LOGGER);
 
             err.addFilterOnTop(LogLevelFilterFactory.createAll(LogLevel.ERROR, LogLevelFilter.USE.SYSERR));
             out.addFilterOnTop(LogLevelFilterFactory.createAll(LogLevel.INFO, LogLevelFilter.USE.SYSOUT));
@@ -61,6 +71,11 @@ public final class SysStreamsLogger {
         try {
             System.setOut(SYSOUT);
             System.setErr(SYSERR);
+
+            out.close();
+            err.close();
+            out = null;
+            err = null;
         } finally {
             LOCK.unlock();
         }
