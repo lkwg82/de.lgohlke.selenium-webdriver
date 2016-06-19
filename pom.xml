@@ -107,7 +107,6 @@
                         <driver>
                             <name>chromedriver</name>
                             <platform>linux</platform>
-                            <version>2.20</version>
                         </driver>
                         <driver>
                             <name>phantomjs</name>
