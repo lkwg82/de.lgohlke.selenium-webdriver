@@ -3,7 +3,6 @@ package de.lgohlke.selenium.webdriver;
 import de.lgohlke.junit.HttpServerFromResource;
 import de.lgohlke.selenium.webdriver.junit.DriverService;
 import lombok.extern.slf4j.Slf4j;
-import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
