@@ -189,7 +189,6 @@
                     <environmentVariables>
                         <DRIVERS_PATH>${drivers.installation.directory}</DRIVERS_PATH>
                     </environmentVariables>
-                    <rerunFailingTestsCount>2</rerunFailingTestsCount>
                 </configuration>
             </plugin>
             <plugin>
