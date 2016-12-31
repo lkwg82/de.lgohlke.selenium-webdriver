@@ -15,7 +15,7 @@ args="--name=webdriver-test-$$ -m 1500M --memory-swap=-1 \
 rm -rf target/*
 docker build -t test-$$ . | tee docker_build.log
 IMAGE_ID=$(tail -n1 docker_build.log| cut -d\  -f3)
-CONTAINER_ID=$(docker run -d $args $IMAGE_ID bash -c 'while true; do sleep 10000; done')
+CONTAINER_ID=$(docker run --privileged -d $args $IMAGE_ID bash -c 'while true; do sleep 10000; done')
 
 echo -n $IMAGE_ID > docker_IMAGE_ID
 echo -n $CONTAINER_ID > docker_CID
