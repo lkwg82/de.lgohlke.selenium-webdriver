@@ -17,11 +17,8 @@
     <Loggers>
         <Logger name="de.lgohlke.selenium.webdriver.ErrorLoggingWebDriverEventListener" level="FATAL"/>
 
-        <Root level="error">
+        <Root level="warn">
             <AppenderRef ref="consoleAppender"/>
-        </Root>
-        <Root level="info">
-            <appender-ref ref="log.file"/>
         </Root>
     </Loggers>
 </Configuration>
