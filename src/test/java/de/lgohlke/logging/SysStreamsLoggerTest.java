@@ -1,6 +1,7 @@
 package de.lgohlke.logging;
 
 import lombok.RequiredArgsConstructor;
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -47,6 +48,11 @@ public class SysStreamsLoggerTest {
             return USE.BOTH;
         }
     };
+
+    @Before
+    public void setUp() throws Exception {
+        SysStreamsLogger.unbindSystemStreams();
+    }
 
     @Test
     public void shouldMatch() {

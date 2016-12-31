@@ -72,10 +72,14 @@ public final class SysStreamsLogger {
             System.setOut(SYSOUT);
             System.setErr(SYSERR);
 
-            out.close();
-            err.close();
-            out = null;
-            err = null;
+            if (out != null) {
+                out.close();
+                out = null;
+            }
+            if (err != null) {
+                err.close();
+                err = null;
+            }
         } finally {
             LOCK.unlock();
         }
