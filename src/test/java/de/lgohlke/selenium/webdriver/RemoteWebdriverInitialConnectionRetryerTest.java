@@ -2,6 +2,9 @@ package de.lgohlke.selenium.webdriver;
 
 import de.lgohlke.selenium.webdriver.chrome.ChromeDriverServiceFactory;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
@@ -12,11 +15,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.LongAdder;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @Slf4j
 public class RemoteWebdriverInitialConnectionRetryerTest {
@@ -34,6 +33,9 @@ public class RemoteWebdriverInitialConnectionRetryerTest {
 
     @Test
     public void shouldTimeoutWhileConnecting() throws Exception {
+        Logger logger = LogManager.getLogger(RemoteWebdriverInitialConnectionRetryer.class);
+        ((org.apache.logging.log4j.core.Logger) logger).setLevel(Level.ERROR);
+
         when(driverService.isRunning()).thenReturn(true);
         when(factory.createWebDriver(driverService)).thenAnswer(invocationOnMock -> {
             TimeUnit.MILLISECONDS.sleep(600);
@@ -45,6 +47,8 @@ public class RemoteWebdriverInitialConnectionRetryerTest {
         assertThat(webDriver).isNull();
         verify(driverService, times(10)).isRunning();
         verify(driverService, times(5)).stop();
+
+        ((org.apache.logging.log4j.core.Logger) logger).setLevel(Level.WARN);
     }
 
     @Test
