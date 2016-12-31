@@ -124,6 +124,8 @@ in your `pom.xml`
       }
   }
 ```
+# development instructions
+- on linux in intellij you need to pass `DISPLAY=:0.0` variable in run configuration of each test
 
 # build instructions
 
