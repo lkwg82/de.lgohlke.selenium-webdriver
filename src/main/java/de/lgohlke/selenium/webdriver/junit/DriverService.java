@@ -1,5 +1,6 @@
 package de.lgohlke.selenium.webdriver.junit;
 
+import com.google.common.base.Preconditions;
 import de.lgohlke.selenium.webdriver.DriverConfiguration;
 import de.lgohlke.selenium.webdriver.DriverServiceFactory;
 import de.lgohlke.selenium.webdriver.DriverType;
@@ -50,6 +51,7 @@ public class DriverService extends ExternalResource {
         service.start();
 
         driver = driverServiceFactory.createWebDriver(service);
+        Preconditions.checkNotNull(driver,"driver should not be null after creation");
 
         if (!listeners.isEmpty()) {
             EventFiringWebDriver eventFiringWebDriver = new EventFiringWebDriver(driver);
