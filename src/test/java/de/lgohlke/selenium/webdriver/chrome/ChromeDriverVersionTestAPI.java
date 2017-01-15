@@ -14,15 +14,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ChromeDriverVersionTestAPI {
 
     @Test
-    public void weShouldHaveLatestVersionOfChromedriver() {
+    public void weShouldHaveLatestVersionOfChromedriver() throws IOException {
         try (CloseableHttpClient client = HttpClientBuilder.create().build()) {
             HttpGet request = new HttpGet("http://chromedriver.storage.googleapis.com/LATEST_RELEASE?" + System.currentTimeMillis());
-            CloseableHttpResponse response = client.execute(request);
-            String versionInResponse = EntityUtils.toString(response.getEntity());
-            assertThat(versionInResponse).isEqualTo("2.19");
-        } catch (IOException e) {
-            e.printStackTrace();
+            try (CloseableHttpResponse response = client.execute(request)) {
+                String versionInResponse = EntityUtils.toString(response.getEntity());
+                assertThat(versionInResponse).isEqualTo("2.27");
+            }
         }
-
     }
 }
