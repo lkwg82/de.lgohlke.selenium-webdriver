@@ -9,14 +9,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.events.AbstractWebDriverEventListener;
 import org.openqa.selenium.support.events.EventFiringWebDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
@@ -26,6 +19,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.concurrent.TimeUnit;
 
 import static de.lgohlke.selenium.webdriver.DriverType.CHROME;
@@ -187,7 +181,7 @@ public class ErrorLoggingWebDriverEventListenerIT {
             }
         });
         assertThat(files.length).isEqualTo(1);
-        String contentOfLogFile = FileUtils.readFileToString(files[0]);
+        String contentOfLogFile = FileUtils.readFileToString(files[0], Charset.defaultCharset());
         assertThat(contentOfLogFile).contains("Uncaught ReferenceError: NOT_FOUND is not defined");
     }
 

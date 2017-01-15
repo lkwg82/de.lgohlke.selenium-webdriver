@@ -49,12 +49,12 @@ public class ErrorLoggingWebDriverEventListener extends AbstractWebDriverEventLi
     }
 
     @Override
-    public void beforeChangeValueOf(WebElement element, WebDriver driver) {
+    public void beforeChangeValueOf(WebElement element, WebDriver driver, CharSequence[] keysToSend) {
         String type = Joiner.on("|").join(element.getTagName(),
                                           element.getSize(),
                                           element.getLocation(),
                                           element.getText());
-        util.add(driver, "beforeChangeValueOf", type);
+        util.add(driver, "beforeChangeValueOf (keys:["+keysToSend+"])", type);
     }
 
     @Override

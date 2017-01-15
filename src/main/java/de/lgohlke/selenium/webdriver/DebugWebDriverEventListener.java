@@ -141,13 +141,13 @@ public class DebugWebDriverEventListener extends AbstractWebDriverEventListener 
     }
 
     @Override
-    public void beforeChangeValueOf(WebElement element, WebDriver driver) {
-        hightlightAndScreenshot(driver, element, "beforeClickOn");
+    public void beforeChangeValueOf(WebElement element, WebDriver driver, CharSequence[] keysToSend) {
+        hightlightAndScreenshot(driver, element, "beforeChangeValueOf (keys:["+keysToSend+"])");
     }
 
     @Override
-    public void afterChangeValueOf(WebElement element, WebDriver driver) {
-        hightlightAndScreenshot(driver, element, "afterChangeValueOf");
+    public void afterChangeValueOf(WebElement element, WebDriver driver, CharSequence[] keysToSend) {
+        hightlightAndScreenshot(driver, element, "afterChangeValueOf (keys:["+keysToSend+"])");
     }
 
     @VisibleForTesting

@@ -53,9 +53,9 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <selenium.version>2.48.2</selenium.version>
-        <slf4j.version>1.7.12</slf4j.version>
-        <log4j.version>2.4.1</log4j.version>
+        <selenium.version>3.0.1</selenium.version>
+        <slf4j.version>1.7.22</slf4j.version>
+        <log4j.version>2.7</log4j.version>
 
         <drivers.installation.directory>${env.HOME}/tmp_webdrivers</drivers.installation.directory>
         <phantomjsdriver.version>1.2.0</phantomjsdriver.version>
@@ -273,7 +273,7 @@
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
-            <version>3.2.0</version>
+            <version>3.6.1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -297,6 +297,11 @@
             <artifactId>mockito-all</artifactId>
             <version>1.10.19</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+            <version>3.2.1</version>
         </dependency>
     </dependencies>
 
