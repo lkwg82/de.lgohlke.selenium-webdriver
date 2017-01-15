@@ -19,7 +19,7 @@ public class ChromeDriverVersionTestAPI {
             HttpGet request = new HttpGet("http://chromedriver.storage.googleapis.com/LATEST_RELEASE?" + System.currentTimeMillis());
             try (CloseableHttpResponse response = client.execute(request)) {
                 String versionInResponse = EntityUtils.toString(response.getEntity());
-                assertThat(versionInResponse).isEqualTo("2.27");
+                assertThat(versionInResponse.trim()).isEqualTo("2.27");
             }
         }
     }
