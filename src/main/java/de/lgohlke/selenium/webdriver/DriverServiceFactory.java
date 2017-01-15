@@ -25,6 +25,8 @@ public abstract class DriverServiceFactory<S extends DriverService, T extends Dr
 
     public abstract S createService(String... args);
 
+    public abstract DriverArgumentsBuilder createServiceArgumentsBuilder();
+
     public WebDriver createWebDriver(S service) throws IOException {
         DriverServiceFactory<S, T> outerFactory = this;
         DriverServiceFactory<S, T> factory = new DriverServiceFactory<S, T>(driverConfiguration) {
@@ -47,9 +49,7 @@ public abstract class DriverServiceFactory<S extends DriverService, T extends Dr
         return connectionRetryer.start(factory, service);
     }
 
-    public WebDriver createPlainWebDriver(S service) throws IOException {
+    private WebDriver createPlainWebDriver(S service) throws IOException {
         return new RemoteWebDriver(service.getUrl(), getDriverConfiguration().createCapabilities());
     }
-
-    public abstract DriverArgumentsBuilder createServiceArgumentsBuilder();
 }
