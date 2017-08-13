@@ -62,16 +62,18 @@ public class ChromeDriverServiceFactoryIT {
     public void startAndStop() throws IOException {
         ChromeDriverService driverService = factory.createService();
 
-        driverService.start();
+        try {
+            driverService.start();
 
-        WebDriver webDriver = factory.createWebDriver(driverService);
-        String    url       = "http://localhost:" + httpServer.getAddress().getPort() + "/webdriverTest";
-        webDriver.get(url);
-        String currentUrl = webDriver.getCurrentUrl();
+            WebDriver webDriver = factory.createWebDriver(driverService);
 
-        assertThat(currentUrl).isEqualTo(url);
+            String url = "http://localhost:" + httpServer.getAddress().getPort() + "/webdriverTest";
+            webDriver.get(url);
 
-        driverService.stop();
+            assertThat(webDriver.getCurrentUrl()).isEqualTo(url);
+        }finally {
+            driverService.stop();
+        }
     }
 
     @Test
