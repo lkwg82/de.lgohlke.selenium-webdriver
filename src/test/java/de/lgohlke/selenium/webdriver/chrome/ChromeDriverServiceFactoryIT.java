@@ -33,6 +33,7 @@ public class ChromeDriverServiceFactoryIT {
     private       Mitmdump                   mitmdump        = new Mitmdump(SERVE, "/proxy.flow", proxyPortProber);
     @Rule
     public        TestRule                   chain           = RuleChain.outerRule(proxyPortProber).around(mitmdump);
+
     private HttpServer          httpServer;
     private ChromeDriverService driverService;
 
@@ -131,6 +132,8 @@ public class ChromeDriverServiceFactoryIT {
 
     @Test(expected = IllegalArgumentException.class)
     public void testServiceArgumentBuilder() {
-        factory.createServiceArgumentsBuilder().httpProxyServer("httpx://localhost:8080").build();
+        factory.createServiceArgumentsBuilder()
+               .httpProxyServer("httpx://localhost:8080")
+               .build();
     }
 }
