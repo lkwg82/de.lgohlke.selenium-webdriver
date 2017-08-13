@@ -18,6 +18,7 @@ public class ChromeDriverServiceFactoryTest {
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void environmentVariableShouldBePropagated() throws NoSuchFieldException, IllegalAccessException {
         ChromeDriverService service = serviceFactory.createService("DISPLAY", "X");
 
@@ -26,5 +27,33 @@ public class ChromeDriverServiceFactoryTest {
         Map<String, String> env = (Map<String, String>) field.get(service);
 
         assertThat(env).containsEntry("DISPLAY", "X");
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    public void onLinux_shouldSetDisplayToZEROIfUnset() throws NoSuchFieldException, IllegalAccessException {
+        System.setProperty("os.name", "Linux");
+
+        ChromeDriverService service = serviceFactory.createService();
+
+        Field field = DriverService.class.getDeclaredField("environment");
+        field.setAccessible(true);
+        Map<String, String> env = (Map<String, String>) field.get(service);
+
+        assertThat(env).containsEntry("DISPLAY", ":0");
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    public void onOtherOs_shouldNotSetDisplay() throws NoSuchFieldException, IllegalAccessException {
+        System.setProperty("os.name", "NotLinux");
+
+        ChromeDriverService service = serviceFactory.createService();
+
+        Field field = DriverService.class.getDeclaredField("environment");
+        field.setAccessible(true);
+        Map<String, String> env = (Map<String, String>) field.get(service);
+
+        assertThat(env).doesNotContainKey("DISPLAY");
     }
 }

@@ -59,6 +59,10 @@ public class ChromeDriverServiceFactory extends DriverServiceFactory<ChromeDrive
             environment.put(args[i - 1], args[i]);
         }
 
+        if ("Linux".equals(System.getProperty("os.name")) && !environment.containsKey("DISPLAY")){
+            environment.put("DISPLAY",":0");
+        }
+
         return new Builder()
                 .usingDriverExecutable(EXECUTABLE)
                 .withVerbose(log.isInfoEnabled())
