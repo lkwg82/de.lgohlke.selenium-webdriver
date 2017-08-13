@@ -59,14 +59,25 @@ public class ChromeDriverServiceFactory extends DriverServiceFactory<ChromeDrive
             environment.put(args[i - 1], args[i]);
         }
 
-        if ("Linux".equals(System.getProperty("os.name")) && !environment.containsKey("DISPLAY")){
-            environment.put("DISPLAY",":0");
-        }
+        handleDISPLAYonLinux(environment);
 
         return new Builder()
                 .usingDriverExecutable(EXECUTABLE)
                 .withVerbose(log.isInfoEnabled())
                 .withEnvironment(environment)
                 .usingAnyFreePort().build();
+    }
+
+    private void handleDISPLAYonLinux(Map<String, String> environment) {
+        if ("Linux".equals(System.getProperty("os.name")) && !environment.containsKey("DISPLAY")) {
+            String displayFromEnvironment = System.getenv().get("DISPLAY");
+            if (null != displayFromEnvironment) {
+                log.info("using DISPLAY {}", displayFromEnvironment);
+                environment.put("DISPLAY", displayFromEnvironment);
+            } else {
+                log.info("set default DISPLAY=:0");
+                environment.put("DISPLAY", ":0");
+            }
+        }
     }
 }
