@@ -52,13 +52,13 @@ public class ChromeDriverServiceFactory extends DriverServiceFactory<ChromeDrive
 
     public ChromeDriverService createService(String... args) {
 
-        Map<String, String> environment = new HashMap<>();
-        if (args.length % 2 == 0) {
-            for (int i = 1; i < args.length; i += 2) {
-                environment.put(args[i - 1], args[i]);
-            }
-        } else {
+        if (args.length % 2 != 0) {
             throw new IllegalArgumentException("arguments should be pairs");
+        }
+
+        Map<String, String> environment = new HashMap<>();
+        for (int i = 1; i < args.length; i += 2) {
+            environment.put(args[i - 1], args[i]);
         }
 
         return new Builder()
