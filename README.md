@@ -33,21 +33,20 @@ in your `pom.xml`
     <build>
         <plugins>
             ...
-            <plugin>
+             <plugin>
                 <groupId>com.github.webdriverextensions</groupId>
                 <artifactId>webdriverextensions-maven-plugin</artifactId>
-                <version>2.0.0</version>
+                <version>3.1.1</version>
                 <configuration>
                     <drivers>
                         <driver>
                             <name>chromedriver</name>
                             <platform>linux</platform>
-                            <version>2.19</version>
                         </driver>
                         <driver>
                             <name>phantomjs</name>
                             <platform>linux</platform>
-                            <version>1.9.7</version>
+                            <version>1.9.8</version>
                         </driver>
                     </drivers>
                     <installationDirectory>${drivers.installation.directory}</installationDirectory>
@@ -68,7 +67,7 @@ in your `pom.xml`
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
-                <version>2.18.1</version>
+                <version>2.20</version>
                 <executions>
                     <execution>
                         <id>test</id>
