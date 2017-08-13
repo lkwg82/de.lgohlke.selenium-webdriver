@@ -1,5 +1,6 @@
 package de.lgohlke.selenium.webdriver.chrome;
 
+import com.google.common.base.Preconditions;
 import de.lgohlke.logging.LogLevel;
 import de.lgohlke.logging.LogLevelFilter;
 import de.lgohlke.logging.LogLevelFilterFactory;
@@ -51,10 +52,7 @@ public class ChromeDriverServiceFactory extends DriverServiceFactory<ChromeDrive
     }
 
     public ChromeDriverService createService(String... args) {
-
-        if (args.length % 2 != 0) {
-            throw new IllegalArgumentException("arguments should be pairs");
-        }
+        Preconditions.checkArgument(args.length % 2 == 0, "arguments should be pairs");
 
         Map<String, String> environment = new HashMap<>();
         for (int i = 1; i < args.length; i += 2) {
