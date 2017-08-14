@@ -12,8 +12,8 @@ cat >gen-key-script <<EOF
       Key-Length: 4096
       Subkey-Type: 1
       Subkey-Length: 4096
-      Name-Real: Opensource Idealo
-      Name-Email: lars.gohlke+github_test-logger@idealo.de
+      Name-Real: Opensource
+      Name-Email: lkwg82@gmx.de
       Expire-Date: 2y
       Passphrase: ${GPG_PASSPHRASE}
       %commit
