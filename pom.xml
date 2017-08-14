@@ -212,7 +212,7 @@
                         <DISPLAY>:${xvfb.display}</DISPLAY>
                         <DRIVERS_PATH>${drivers.installation.directory}</DRIVERS_PATH>
                     </environmentVariables>
-                    <!--<rerunFailingTestsCount>2</rerunFailingTestsCount>-->
+                    <rerunFailingTestsCount>2</rerunFailingTestsCount>
                 </configuration>
             </plugin>
         </plugins>

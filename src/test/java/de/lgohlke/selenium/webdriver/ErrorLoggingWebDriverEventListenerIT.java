@@ -1,6 +1,8 @@
 package de.lgohlke.selenium.webdriver;
 
+import com.google.common.collect.Lists;
 import de.lgohlke.junit.HttpServerFromResource;
+import de.lgohlke.selenium.webdriver.chrome.ChromeDriverConfiguration;
 import de.lgohlke.selenium.webdriver.junit.DriverService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
@@ -34,7 +36,7 @@ public class ErrorLoggingWebDriverEventListenerIT {
     @Rule
     public DriverService          driverServicePhantomJS = new DriverService(PHANTOMJS);
     @Rule
-    public DriverService          driverServiceChrome    = new DriverService(CHROME);
+    public DriverService          driverServiceChrome    = new DriverService(CHROME, Lists.newArrayList(),new ChromeDriverConfiguration().addCommandlineSwitch("--headless").addCommandlineSwitch("--disable-gpu"));
     @Rule
     public HttpServerFromResource httpServer             = new HttpServerFromResource("/");
 
@@ -165,12 +167,10 @@ public class ErrorLoggingWebDriverEventListenerIT {
     public void shouldLogJSErrors() throws IOException {
         driverChrome.get(httpServer.url("/form.html"));
 
-        ((JavascriptExecutor) driverChrome).executeScript("window.setTimeout(function(){ NOT_FOUND++;},100); return 1;");
-
         try {
-            ((JavascriptExecutor) driverChrome).executeScript("$NOT_FOUND;");
+            ((JavascriptExecutor) driverChrome).executeScript("NOT_FOUND();");
             fail("should fail");
-        }catch (WebDriverException e){
+        } catch (WebDriverException e) {
             // ok
         }
 
@@ -182,13 +182,13 @@ public class ErrorLoggingWebDriverEventListenerIT {
         });
         assertThat(files.length).isEqualTo(1);
         String contentOfLogFile = FileUtils.readFileToString(files[0], Charset.defaultCharset());
-        assertThat(contentOfLogFile).contains("Uncaught ReferenceError: NOT_FOUND is not defined");
+        assertThat(contentOfLogFile).contains("unknown error: NOT_FOUND is not defined");
     }
 
     private static class Helper {
 
         @SwallowWebdriverException(NoSuchElementException.class)
-        public void helpWithSwallow(WebDriver driver, By by) {
+        void helpWithSwallow(WebDriver driver, By by) {
             try {
                 driver.findElement(by).getSize();
             } catch (NoSuchElementException e) {
@@ -197,7 +197,7 @@ public class ErrorLoggingWebDriverEventListenerIT {
         }
 
         @SwallowWebdriverException(NoSuchElementException.class)
-        public void helpWithSwallowWrongException(WebDriver driver, By by) {
+        void helpWithSwallowWrongException(WebDriver driver, By by) {
             try {
                 WebElement element = driver.findElement(by);
                 driver.get("file:///");
@@ -208,7 +208,7 @@ public class ErrorLoggingWebDriverEventListenerIT {
         }
 
         @SwallowWebdriverException
-        public void helpWithSwallowAll(WebDriver driver, By by) {
+        void helpWithSwallowAll(WebDriver driver, By by) {
             try {
                 driver.findElement(by).getSize();
             } catch (NoSuchElementException e) {
@@ -216,7 +216,7 @@ public class ErrorLoggingWebDriverEventListenerIT {
             }
         }
 
-        public void helpWithSwallowNone(WebDriver driver, By by) {
+        void helpWithSwallowNone(WebDriver driver, By by) {
             try {
                 driver.findElement(by).getSize();
             } catch (NoSuchElementException e) {
