@@ -20,6 +20,22 @@ public enum DriverType {
             return ChromeDriverConfiguration.class;
         }
     },
+    CHROME_HEADLESS {
+        @Override
+        public <T extends DriverConfiguration> DriverServiceFactory driverServiceFactory(T driverConfiguration) {
+            Preconditions.checkArgument(driverConfiguration instanceof ChromeDriverConfiguration,
+                                        "must be instance of " + ChromeDriverConfiguration.class);
+
+            ((ChromeDriverConfiguration) driverConfiguration).enableHeadlessMode();
+
+            return new ChromeDriverServiceFactory((ChromeDriverConfiguration) driverConfiguration);
+        }
+
+        @Override
+        public Class<? extends DriverConfiguration> getDriverConfigurationClass() {
+            return ChromeDriverConfiguration.class;
+        }
+    },
     PHANTOMJS {
         @Override
         public <T extends DriverConfiguration> DriverServiceFactory driverServiceFactory(T driverConfiguration) {

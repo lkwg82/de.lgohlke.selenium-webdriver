@@ -8,6 +8,7 @@ Note: it is similiar to https://github.com/webdriverextensions/webdriverextensio
 
 # Features
 
+- supports chrome headless see https://developers.google.com/web/updates/2017/04/headless-chrome
 - factory to restart a fresh configured instance
 - support for http(s) proxy
 - support for mitmproxy to replay whole web sessions
@@ -113,7 +114,7 @@ in your `pom.xml`
 
   public class DemoTest {
       @Rule
-      public DriverService driverService = new DriverService(DriverType.CHROME);
+      public DriverService driverService = new DriverService(DriverType.CHROME_HEADLESS);
 
       @Test
       public void test() throws InterruptedException {
@@ -124,7 +125,7 @@ in your `pom.xml`
   }
 ```
 # development instructions
-- on linux in intellij you need to pass `DISPLAY=:0.0` variable in run configuration of each test
+- on linux in intellij you need to pass `DISPLAY=:0.0` variable in run configuration of each test (or run phantomjs or chrome headless)
 
 # build instructions
 

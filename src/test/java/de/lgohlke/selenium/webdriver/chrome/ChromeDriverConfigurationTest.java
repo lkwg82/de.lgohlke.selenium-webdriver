@@ -21,7 +21,19 @@ public class ChromeDriverConfigurationTest {
         Object       capability   = capabilities.getCapability(ChromeOptions.CAPABILITY);
 
         assertThat(capability).isInstanceOf(ChromeOptions.class);
-        assertThat(((ChromeOptions) capability).toJson().toString()).isEqualTo("{\"args\":[\"user-data-dir=x\"],\"extensions\":[]}");
+        assertThat(((ChromeOptions) capability).toJson()
+                                               .toString()).isEqualTo("{\"args\":[\"user-data-dir=x\"],\"extensions\":[]}");
     }
 
+    @Test
+    public void shouldBeHeadless() throws IOException {
+        configuration.enableHeadlessMode();
+
+        Capabilities capabilities = configuration.createCapabilities();
+        Object       capability   = capabilities.getCapability(ChromeOptions.CAPABILITY);
+
+        assertThat(capability).isInstanceOf(ChromeOptions.class);
+        assertThat(((ChromeOptions) capability).toJson()
+                                               .toString()).isEqualTo("{\"args\":[\"--headless\",\"--disable-gpu\"],\"extensions\":[]}");
+    }
 }

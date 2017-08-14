@@ -9,7 +9,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 public class ChromeDriverConfiguration implements DriverConfiguration {
     private final DesiredCapabilities capabilities = DesiredCapabilities.chrome();
     @Getter
-    private final ChromeOptions options = new ChromeOptions();
+    private final ChromeOptions       options      = new ChromeOptions();
 
     @Override
     public Capabilities createCapabilities() {
@@ -24,5 +24,10 @@ public class ChromeDriverConfiguration implements DriverConfiguration {
     public ChromeDriverConfiguration addCommandlineSwitch(String switchh) {
         options.addArguments(switchh);
         return this;
+    }
+
+    public ChromeDriverConfiguration enableHeadlessMode() {
+        return addCommandlineSwitch("--headless")
+                .addCommandlineSwitch("--disable-gpu");
     }
 }
