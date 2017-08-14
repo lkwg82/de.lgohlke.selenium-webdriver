@@ -466,7 +466,7 @@
                     <plugin>
                         <groupId>org.pitest</groupId>
                         <artifactId>pitest-maven</artifactId>
-                        <version>1.1.11</version>
+                        <version>1.2.2</version>
                         <configuration>
                             <environmentVariables>
                                 <DRIVERS_PATH>${drivers.installation.directory}</DRIVERS_PATH>
@@ -510,6 +510,7 @@
                             </targetTests>
                             <excludedClasses>
                                 <excludedClass>de.lgohlke.selenium.webdriver.AbstractWebDriver</excludedClass>
+                                <excludedClass>de.lgohlke.selenium.webdriver.phantomjs.PhantomJSDriverServiceFactoryIT</excludedClass>
                             </excludedClasses>
                             <threads>4</threads>
                             <timestampedReports>false</timestampedReports>
