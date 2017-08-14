@@ -5,3 +5,12 @@ services:
 
 script:
   - ./run_docker.sh
+
+deploy:
+  -
+    provider: script
+    script: .travis/deploy.sh
+    skip_cleanup: true
+    on:
+      repo: lkwg82/de.lgohlke.selenium-webdriver
+      tags: true
