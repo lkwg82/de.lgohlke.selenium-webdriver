@@ -1,7 +1,6 @@
 package de.lgohlke.selenium.webdriver;
 
 import de.lgohlke.junit.HttpServerFromResource;
-import de.lgohlke.selenium.webdriver.chrome.ChromeDriverConfiguration;
 import de.lgohlke.selenium.webdriver.junit.DriverService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
@@ -13,7 +12,6 @@ import org.openqa.selenium.support.events.EventFiringWebDriver;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,8 +24,7 @@ public class DebugWebDriverEventListenerIT {
     @Rule
     public TemporaryFolder        testFolder    = new TemporaryFolder();
     @Rule
-    public DriverService          driverService = new DriverService(DriverType.CHROME, new ArrayList<>(),
-                                                                    new ChromeDriverConfiguration().enableHeadlessMode());
+    public DriverService          driverService = new DriverService(DriverType.CHROME_HEADLESS);
     @Rule
     public HttpServerFromResource httpServer    = new HttpServerFromResource("/");
 
