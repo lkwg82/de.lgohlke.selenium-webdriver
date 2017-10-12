@@ -4,7 +4,7 @@
 
     <groupId>de.lgohlke.selenium</groupId>
     <artifactId>webdriver</artifactId>
-    <version>20151216-SNAPSHOT</version>
+    <version>99-SNAPSHOT</version>
 
     <name>WebDriver library</name>
     <description>adds some essential webdriver util classes</description>
