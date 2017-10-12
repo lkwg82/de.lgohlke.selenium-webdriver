@@ -130,7 +130,7 @@ in your `pom.xml`
 # build instructions
 
 - install docker
-- run `run-docker.sh`
+- run `run_docker.sh`
 
 # release instructions
 
