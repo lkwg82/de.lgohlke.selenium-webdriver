@@ -5,6 +5,8 @@ import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.chrome.ChromeOptions;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.TreeMap;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -20,9 +22,9 @@ public class ChromeDriverConfigurationTest {
         Capabilities capabilities = configuration.createCapabilities();
         Object       capability   = capabilities.getCapability(ChromeOptions.CAPABILITY);
 
-        assertThat(capability).isInstanceOf(ChromeOptions.class);
-        assertThat(((ChromeOptions) capability).toJson()
-                                               .toString()).isEqualTo("{\"args\":[\"--user-data-dir=x\"],\"extensions\":[]}");
+        TreeMap<String, List<String>> chromeOptions = (TreeMap) capability;
+        assertThat(chromeOptions).containsKeys("args");
+        assertThat(chromeOptions.get("args")).containsExactly("--user-data-dir=x");
     }
 
     @Test
@@ -32,8 +34,8 @@ public class ChromeDriverConfigurationTest {
         Capabilities capabilities = configuration.createCapabilities();
         Object       capability   = capabilities.getCapability(ChromeOptions.CAPABILITY);
 
-        assertThat(capability).isInstanceOf(ChromeOptions.class);
-        assertThat(((ChromeOptions) capability).toJson()
-                                               .toString()).isEqualTo("{\"args\":[\"--headless\",\"--disable-gpu\"],\"extensions\":[]}");
+        TreeMap<String, List<String>> chromeOptions = (TreeMap) capability;
+        assertThat(chromeOptions).containsKeys("args");
+        assertThat(chromeOptions.get("args")).containsExactly("--headless", "--disable-gpu");
     }
 }

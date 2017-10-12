@@ -6,8 +6,12 @@ import org.junit.Test;
 import org.openqa.selenium.chrome.ChromeOptions;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.TreeMap;
 
-import static de.lgohlke.selenium.webdriver.DriverType.*;
+import static de.lgohlke.selenium.webdriver.DriverType.CHROME;
+import static de.lgohlke.selenium.webdriver.DriverType.CHROME_HEADLESS;
+import static de.lgohlke.selenium.webdriver.DriverType.PHANTOMJS;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class DriverTypeTest {
@@ -31,11 +35,12 @@ public class DriverTypeTest {
         DriverServiceFactory factory       = CHROME_HEADLESS.driverServiceFactory(new ChromeDriverConfiguration());
         DriverConfiguration  configuration = factory.getDriverConfiguration();
 
-        Object capability = configuration.createCapabilities().getCapability(ChromeOptions.CAPABILITY);
+        Object capability = configuration.createCapabilities()
+                                         .getCapability(ChromeOptions.CAPABILITY);
 
-        assertThat(capability).isInstanceOf(ChromeOptions.class);
-        assertThat(((ChromeOptions) capability).toJson()
-                                               .toString()).isEqualTo("{\"args\":[\"--headless\",\"--disable-gpu\"],\"extensions\":[]}");
+        TreeMap<String,List<String>> chromeOptions = (TreeMap) capability;
+        assertThat(chromeOptions).containsKeys("args");
+        assertThat(chromeOptions.get("args")).containsExactly("--headless","--disable-gpu");
     }
 
     @Test(expected = IllegalArgumentException.class)
