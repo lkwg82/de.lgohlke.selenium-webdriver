@@ -63,10 +63,6 @@
         <maven.build.timestamp.format>mmssSS</maven.build.timestamp.format>
     </properties>
 
-    <prerequisites>
-        <maven>3.3.9</maven>
-    </prerequisites>
-
     <build>
         <plugins>
             <plugin>
