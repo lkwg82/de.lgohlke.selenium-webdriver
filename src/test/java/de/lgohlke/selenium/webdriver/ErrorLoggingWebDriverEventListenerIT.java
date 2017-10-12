@@ -36,7 +36,7 @@ public class ErrorLoggingWebDriverEventListenerIT {
     @Rule
     public DriverService          driverServicePhantomJS = new DriverService(PHANTOMJS);
     @Rule
-    public DriverService          driverServiceChrome    = new DriverService(CHROME, Lists.newArrayList(),new ChromeDriverConfiguration().addCommandlineSwitch("--headless").addCommandlineSwitch("--disable-gpu"));
+    public DriverService          driverServiceChrome    = new DriverService(CHROME, Lists.newArrayList(),new ChromeDriverConfiguration().enableHeadlessMode());
     @Rule
     public HttpServerFromResource httpServer             = new HttpServerFromResource("/");
 
