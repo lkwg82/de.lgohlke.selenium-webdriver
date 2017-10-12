@@ -18,7 +18,7 @@ public class ChromeDriverConfiguration implements DriverConfiguration {
     }
 
     public ChromeDriverConfiguration setUserDir(String path) {
-        return addCommandlineSwitch("user-data-dir=" + path);
+        return addCommandlineSwitch("--user-data-dir=" + path);
     }
 
     public ChromeDriverConfiguration addCommandlineSwitch(String switchh) {

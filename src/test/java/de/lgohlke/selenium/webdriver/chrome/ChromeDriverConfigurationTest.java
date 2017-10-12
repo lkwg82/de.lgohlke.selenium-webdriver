@@ -22,7 +22,7 @@ public class ChromeDriverConfigurationTest {
 
         assertThat(capability).isInstanceOf(ChromeOptions.class);
         assertThat(((ChromeOptions) capability).toJson()
-                                               .toString()).isEqualTo("{\"args\":[\"user-data-dir=x\"],\"extensions\":[]}");
+                                               .toString()).isEqualTo("{\"args\":[\"--user-data-dir=x\"],\"extensions\":[]}");
     }
 
     @Test
