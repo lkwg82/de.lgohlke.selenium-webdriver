@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # just for resolving all dependencies
-mvn install -DskipTests
+./mvnw install -DskipTests
 
 # actual running tests
 timeout --preserve-status --kill-after 7m 6m \
-    mvn clean verify -P sonar-coverage
+    ./mvnw clean verify -P sonar-coverage

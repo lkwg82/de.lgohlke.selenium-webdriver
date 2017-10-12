@@ -4,12 +4,13 @@ DOCKER_USER_TMP="/tmp/docker_$USER"
 DOCKER_M2="$DOCKER_USER_TMP/m2"
 DOCKER_WEBDRIVER="$DOCKER_USER_TMP/webdriver"
 
-mkdir -p $DOCKER_M2           # create the directory before
+mkdir -p $DOCKER_M2/wrapper           # create the directory before
+mkdir -p $DOCKER_M2/repository        # create the directory before
 mkdir -p $DOCKER_WEBDRIVER    # to have the correct ownership
 
 args="--name=webdriver-test-$$ -m 1500M --memory-swap=-1 \
     -v /dev/shm:/dev/shm \
-    -v $DOCKER_M2:/home/build/.m2/repository \
+    -v $DOCKER_M2:/home/build/.m2 \
     -v $DOCKER_WEBDRIVER:/home/build/tmp_webdrivers "
 
 rm -rf target/*
