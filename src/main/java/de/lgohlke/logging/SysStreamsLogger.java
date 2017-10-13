@@ -31,7 +31,7 @@ public final class SysStreamsLogger {
         try {
 
             if (out != null) {
-                log.warn("tried to rebound");
+                log.warn("tried to rebind");
                 return;
             }
             // Enable autoflush
