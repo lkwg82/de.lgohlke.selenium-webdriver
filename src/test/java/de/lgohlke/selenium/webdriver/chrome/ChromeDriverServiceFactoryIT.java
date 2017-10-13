@@ -111,7 +111,7 @@ public class ChromeDriverServiceFactoryIT {
         }
     }
 
-    @Ignore
+    @Ignore("we dont have a local http proxy anymore")
     @Test
     public void testProxyHTTP() throws IOException {
         String[] arguments = factory.createServiceArgumentsBuilder()
@@ -126,7 +126,7 @@ public class ChromeDriverServiceFactoryIT {
                             .length()).isBetween(24000, 26000);
     }
 
-    @Ignore
+    @Ignore("we dont have a local https proxy anymore")
     @Test
     public void testProxyHTTPS() throws IOException {
         String[] arguments = factory.createServiceArgumentsBuilder()
