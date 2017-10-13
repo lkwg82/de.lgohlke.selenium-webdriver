@@ -54,7 +54,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <selenium.version>3.5.3</selenium.version>
-        <slf4j.version>1.7.22</slf4j.version>
+        <slf4j.version>1.7.25</slf4j.version>
         <log4j.version>2.8.2</log4j.version>
 
         <drivers.installation.directory>${env.HOME}/tmp_webdrivers</drivers.installation.directory>
