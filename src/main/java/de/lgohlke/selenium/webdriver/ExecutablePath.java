@@ -8,7 +8,7 @@ public class ExecutablePath {
         String environmentVariable = "DRIVERS_PATH";
         String driversPath         = System.getenv(environmentVariable);
 
-        if (driversPath == null) {
+        if (driversPath == null || "".equals(driversPath)) {
             throw new IllegalStateException("please set environment variable " + environmentVariable + " to point to the directory where " + basename + " binary is located");
         }
 

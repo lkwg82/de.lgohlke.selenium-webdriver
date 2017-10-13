@@ -22,4 +22,11 @@ public class ExecutablePathTest {
 
         assertThat(executablePath.buildExecutablePath("p")).isEqualTo(new File("/tmp/p-linux-64bit"));
     }
+
+    @Test(expected = IllegalStateException.class)
+    public void emptyDriversPathShouldRaiseException() {
+        environmentVariables.set("DRIVERS_PATH", "");
+
+        executablePath.buildExecutablePath("p");
+    }
 }
