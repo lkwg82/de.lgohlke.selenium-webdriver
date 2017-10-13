@@ -11,6 +11,9 @@ public class ChromeDriverConfiguration implements DriverConfiguration {
     @Getter
     private final ChromeOptions       options      = new ChromeOptions();
 
+    @Getter
+    private boolean headless;
+
     @Override
     public Capabilities createCapabilities() {
         capabilities.setCapability(ChromeOptions.CAPABILITY, options);
@@ -27,6 +30,7 @@ public class ChromeDriverConfiguration implements DriverConfiguration {
     }
 
     public ChromeDriverConfiguration enableHeadlessMode() {
+        headless = true;
         return addCommandlineSwitch("--headless")
                 .addCommandlineSwitch("--disable-gpu");
     }

@@ -29,6 +29,8 @@ public class ChromeDriverConfigurationTest {
     public void shouldBeHeadless() throws IOException {
         configuration.enableHeadlessMode();
 
+        assertThat(configuration.isHeadless()).isTrue();
+
         Capabilities capabilities = configuration.createCapabilities();
         Object       capability   = capabilities.getCapability(ChromeOptions.CAPABILITY);
 
