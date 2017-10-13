@@ -7,6 +7,7 @@ import de.lgohlke.logging.LogLevelFilterFactory;
 import de.lgohlke.logging.SysStreamsLogger;
 import de.lgohlke.selenium.webdriver.DriverArgumentsBuilder;
 import de.lgohlke.selenium.webdriver.DriverServiceFactory;
+import de.lgohlke.selenium.webdriver.ExecutableFinder;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.chrome.ChromeDriverService;
@@ -42,7 +43,7 @@ public class ChromeDriverServiceFactory extends DriverServiceFactory<ChromeDrive
     }
 
     @Setter
-    private ChromeDriverLocationStrategy locationStrategy = new ChromeDriverLocationStrategy();
+    private ChromeDriverLocationStrategy locationStrategy = new ChromeDriverLocationStrategy(new ExecutableFinder());
 
     public ChromeDriverServiceFactory(ChromeDriverConfiguration config) {
         super(config);
