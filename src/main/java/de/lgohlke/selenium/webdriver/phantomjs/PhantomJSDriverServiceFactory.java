@@ -1,9 +1,7 @@
 package de.lgohlke.selenium.webdriver.phantomjs;
 
 import de.lgohlke.logging.LogLevel;
-import de.lgohlke.logging.LogLevelFilter;
-import de.lgohlke.logging.LogLevelFilterFactory;
-import de.lgohlke.logging.SysStreamsLogger;
+import de.lgohlke.logging.LoggingOutputStream;
 import de.lgohlke.selenium.webdriver.DriverArgumentsBuilder;
 import de.lgohlke.selenium.webdriver.DriverServiceFactory;
 import de.lgohlke.selenium.webdriver.ExecutablePath;
@@ -25,12 +23,11 @@ public class PhantomJSDriverServiceFactory extends DriverServiceFactory<PhantomJ
     private static final File EXECUTABLE = new ExecutablePath().buildExecutablePath("phantomjs");
 
     static {
-        LogManager.getLogManager().reset();
+        LogManager.getLogManager()
+                  .reset();
         SLF4JBridgeHandler.install();
-        Logger.getLogger("global").setLevel(Level.FINEST);
-
-        LogLevelFilter defaultErrorFilter = LogLevelFilterFactory.createAll(LogLevel.INFO, LogLevelFilter.USE.BOTH);
-        SysStreamsLogger.bindSystemStreams(defaultErrorFilter);
+        Logger.getLogger("global")
+              .setLevel(Level.FINEST);
     }
 
     public PhantomJSDriverServiceFactory(PhantomJSDriverConfiguration driverConfiguration) {
@@ -47,10 +44,16 @@ public class PhantomJSDriverServiceFactory extends DriverServiceFactory<PhantomJ
         argList.add("--ssl-protocol=any");
         argList.addAll(Arrays.asList(arguments));
 
-        return new PhantomJSDriverService.Builder()
+        PhantomJSDriverService service = new PhantomJSDriverService.Builder()
                 .usingPhantomJSExecutable(EXECUTABLE)
                 .usingCommandLineArguments(argList.toArray(new String[argList.size()]))
-                .usingAnyFreePort().build();
+                .usingAnyFreePort()
+                .build();
+
+        LoggingOutputStream loggingOutputStream = new LoggingOutputStream(log, LogLevel.INFO);
+        service.sendOutputTo(loggingOutputStream);
+
+        return service;
     }
 
     public DriverArgumentsBuilder createServiceArgumentsBuilder() {

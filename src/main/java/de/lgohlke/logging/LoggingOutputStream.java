@@ -5,12 +5,9 @@ import org.slf4j.Logger;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
-class LoggingOutputStream extends OutputStream {
-    private LogLevelFilter[] filters = {};
+public class LoggingOutputStream extends OutputStream {
+    private final LogLevel logLevel;
     private final Logger log;
 
     /**
@@ -21,7 +18,7 @@ class LoggingOutputStream extends OutputStream {
     /**
      * The internal buffer where data is stored.
      */
-    private byte[]     buf = new byte[DEFAULT_BUFFER_LENGTH];
+    private byte[] buf = new byte[DEFAULT_BUFFER_LENGTH];
 
     /**
      * The number of valid bytes in the buffer. This value is always in the
@@ -29,7 +26,7 @@ class LoggingOutputStream extends OutputStream {
      * <tt>buf[0]</tt> through <tt>buf[count-1]</tt> contain valid byte
      * data.
      */
-    protected int count=0;
+    protected int count = 0;
 
     private static final int DEFAULT_BUFFER_LENGTH = 2048;
 
@@ -40,11 +37,13 @@ class LoggingOutputStream extends OutputStream {
 
     private LoggingOutputStream() {
         log = null;
+        logLevel = null;
         // illegal
     }
 
-    public LoggingOutputStream(Logger log){
+    public LoggingOutputStream(Logger log, LogLevel logLevel) {
         Preconditions.checkNotNull(log);
+        this.logLevel = logLevel;
         this.log = log;
     }
 
@@ -83,8 +82,8 @@ class LoggingOutputStream extends OutputStream {
         // would this be writing past the buffer?
         if (count == bufLength) {
             // grow the buffer
-            int newBufLength = bufLength + DEFAULT_BUFFER_LENGTH;
-            byte[] newBuf = new byte[newBufLength];
+            int    newBufLength = bufLength + DEFAULT_BUFFER_LENGTH;
+            byte[] newBuf       = new byte[newBufLength];
 
             System.arraycopy(buf, 0, newBuf, 0, bufLength);
 
@@ -128,17 +127,7 @@ class LoggingOutputStream extends OutputStream {
         if (message.isEmpty()) {
             return;
         }
-        boolean appliedFilter = false;
-        for (LogLevelFilter filter : filters) {
-            if (!appliedFilter && filter.apply(message)) {
-
-                logWithLevel(message, filter.level());
-                appliedFilter = true;
-            }
-        }
-        if (!appliedFilter) {
-            throw new IllegalStateException("no default filter set");
-        }
+        logWithLevel(message, logLevel);
     }
 
     private void logWithLevel(String message, LogLevel level) {
@@ -155,11 +144,5 @@ class LoggingOutputStream extends OutputStream {
         } else {
             log.warn(message);
         }
-    }
-
-    public void addFilterOnTop(LogLevelFilter filter) {
-        List<LogLevelFilter> logLevelFilters = new ArrayList<>(Arrays.asList(filters));
-        logLevelFilters.add(0, filter);
-        filters = logLevelFilters.toArray(new LogLevelFilter[logLevelFilters.size()+1]);
     }
 }

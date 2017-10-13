@@ -2,9 +2,7 @@ package de.lgohlke.selenium.webdriver.chrome;
 
 import com.google.common.base.Preconditions;
 import de.lgohlke.logging.LogLevel;
-import de.lgohlke.logging.LogLevelFilter;
-import de.lgohlke.logging.LogLevelFilterFactory;
-import de.lgohlke.logging.SysStreamsLogger;
+import de.lgohlke.logging.LoggingOutputStream;
 import de.lgohlke.selenium.webdriver.DriverArgumentsBuilder;
 import de.lgohlke.selenium.webdriver.DriverServiceFactory;
 import de.lgohlke.selenium.webdriver.ExecutableFinder;
@@ -12,34 +10,22 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeDriverService.Builder;
+import org.slf4j.bridge.SLF4JBridgeHandler;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 @Slf4j
 public class ChromeDriverServiceFactory extends DriverServiceFactory<ChromeDriverService, ChromeDriverConfiguration> {
-
     static {
-        LogLevelFilter defaultErrorFilter = LogLevelFilterFactory.createAll(LogLevel.INFO, LogLevelFilter.USE.SYSERR);
-        LogLevelFilter warnErrorFilter = new LogLevelFilter() {
-            @Override
-            public boolean apply(String message) {
-                return message.contains("[WARNING]") && !message.contains(
-                        "PAC support disabled because there is no logging implementation");
-            }
-
-            @Override
-            public LogLevel level() {
-                return LogLevel.WARN;
-            }
-
-            @Override
-            public USE useFor() {
-                return USE.SYSERR;
-            }
-        };
-
-        SysStreamsLogger.bindSystemStreams(defaultErrorFilter, warnErrorFilter);
+        LogManager.getLogManager()
+                  .reset();
+        Logger.getLogger("global")
+              .setLevel(Level.WARNING);
+        SLF4JBridgeHandler.install();
     }
 
     @Setter
@@ -63,12 +49,17 @@ public class ChromeDriverServiceFactory extends DriverServiceFactory<ChromeDrive
 
         handleDISPLAYonLinux(environment);
 
-        return new Builder()
+        ChromeDriverService service = new Builder()
                 .usingDriverExecutable(locationStrategy.findExecutable())
-                .withVerbose(log.isInfoEnabled())
+                .withVerbose(log.isDebugEnabled())
                 .withEnvironment(environment)
                 .usingAnyFreePort()
                 .build();
+
+        LoggingOutputStream loggingOutputStream = new LoggingOutputStream(log, LogLevel.INFO);
+        service.sendOutputTo(loggingOutputStream);
+
+        return service;
     }
 
     private void handleDISPLAYonLinux(Map<String, String> environment) {
