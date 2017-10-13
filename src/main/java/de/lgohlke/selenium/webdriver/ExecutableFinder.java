@@ -41,7 +41,7 @@ public class ExecutableFinder {
     }
 
     /**
-     * copied from {@link org.openqa.selenium.os.ExecutableFinder}
+     * copied from {@code org.openqa.selenium.os.ExecutableFinder}
      */
     public static class ExecutableFinder_FROM_SELENIUM {
         private static final ImmutableSet<String> ENDINGS = Platform.getCurrent()
