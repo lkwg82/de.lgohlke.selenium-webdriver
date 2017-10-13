@@ -9,9 +9,9 @@ Note: it is similiar to https://github.com/webdriverextensions/webdriverextensio
 # Features
 
 - supports chrome headless see https://developers.google.com/web/updates/2017/04/headless-chrome
+- supports http(s) proxy
+- supports pre-installed chromium-driver
 - factory to restart a fresh configured instance
-- support for http(s) proxy
-- support for mitmproxy to replay whole web sessions
 - implementation of logging error handler
 - implementation of logging debug handler (screenshots/logs for each step)
 - support of concurrent webdriver usage
@@ -23,8 +23,20 @@ Note: it is similiar to https://github.com/webdriverextensions/webdriverextensio
 
 in your `pom.xml`
 
+for using the pre-installed chromedriver in `$PATH`
 ```xml
+<project>
+    <dependencies>
+        <dependency>
+            <groupId>de.lgohlke.selenium</groupId>
+            <artifactId>webdriver</artifactId>
+            <version>LATEST</version>
+        </dependency>
+    </dependencies>
+</project>
 
+
+for using explicitly a chromedriver version or phantomjs
 <project>
     ...
     <properties>
@@ -37,7 +49,7 @@ in your `pom.xml`
              <plugin>
                 <groupId>com.github.webdriverextensions</groupId>
                 <artifactId>webdriverextensions-maven-plugin</artifactId>
-                <version>3.1.1</version>
+                <version>3.1.2</version>
                 <configuration>
                     <drivers>
                         <driver>
@@ -68,7 +80,6 @@ in your `pom.xml`
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
-                <version>2.20</version>
                 <executions>
                     <execution>
                         <id>test</id>
@@ -79,9 +90,6 @@ in your `pom.xml`
                     </execution>
                 </executions>
                 <configuration>
-                    <includes>
-                        <include>**/*IT.java</include>
-                    </includes>
                     <environmentVariables>
                         <DRIVERS_PATH>${drivers.installation.directory}</DRIVERS_PATH>
                     </environmentVariables>
