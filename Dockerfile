@@ -1,7 +1,6 @@
-FROM openjdk:8-jdk
+FROM ubuntu:16.04
 
-RUN apt-get update \
-    && apt-get install -y chromium libgconf-2-4;
+RUN apt-get update && apt-get install -y chromium-browser chromium-chromedriver libgconf-2-4 openjdk-8-jdk;
 
 ADD . /home/build
 WORKDIR /home/build
