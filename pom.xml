@@ -180,6 +180,7 @@
                         <goals>
                             <goal>jar-no-fork</goal>
                         </goals>
+                        <phase>install</phase>
                     </execution>
                 </executions>
             </plugin>
@@ -198,6 +199,7 @@
                         <goals>
                             <goal>jar</goal>
                         </goals>
+                        <phase>install</phase>
                     </execution>
                 </executions>
             </plugin>
@@ -219,11 +221,6 @@
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-api</artifactId>
-            <version>${selenium.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.seleniumhq.selenium</groupId>
-            <artifactId>selenium-server</artifactId>
             <version>${selenium.version}</version>
         </dependency>
         <dependency>
