@@ -34,7 +34,7 @@ public class ChromeDriverServiceFactoryTest {
     @Test
     public void onLinux_shouldSetDisplayToZEROIfUnset() throws NoSuchFieldException, IllegalAccessException {
         environmentVariables.set("DISPLAY",null);
-        System.setProperty("os.name", "Linux");
+        environmentVariables.set("os.name", "Linux");
 
         ChromeDriverService service = serviceFactory.createService();
 
@@ -46,7 +46,7 @@ public class ChromeDriverServiceFactoryTest {
     @Test
     public void onLinux_shouldUseDisplayFromEnvironment() throws NoSuchFieldException, IllegalAccessException {
         environmentVariables.set("DISPLAY", "Y");
-        System.setProperty("os.name", "Linux");
+        environmentVariables.set("os.name", "Linux");
 
         ChromeDriverService service = serviceFactory.createService();
 
@@ -57,7 +57,7 @@ public class ChromeDriverServiceFactoryTest {
 
     @Test
     public void onOtherOs_shouldNotSetDisplay() throws NoSuchFieldException, IllegalAccessException {
-        System.setProperty("os.name", "NotLinux");
+        environmentVariables.set("os.name", "NotLinux");
 
         ChromeDriverService service = serviceFactory.createService();
 

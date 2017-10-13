@@ -7,18 +7,16 @@ import de.lgohlke.logging.LogLevelFilterFactory;
 import de.lgohlke.logging.SysStreamsLogger;
 import de.lgohlke.selenium.webdriver.DriverArgumentsBuilder;
 import de.lgohlke.selenium.webdriver.DriverServiceFactory;
-import de.lgohlke.selenium.webdriver.ExecutablePath;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeDriverService.Builder;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
 public class ChromeDriverServiceFactory extends DriverServiceFactory<ChromeDriverService, ChromeDriverConfiguration> {
-    private static final File EXECUTABLE = new ExecutablePath().buildExecutablePath("chromedriver");
 
     static {
         LogLevelFilter defaultErrorFilter = LogLevelFilterFactory.createAll(LogLevel.INFO, LogLevelFilter.USE.SYSERR);
@@ -43,6 +41,9 @@ public class ChromeDriverServiceFactory extends DriverServiceFactory<ChromeDrive
         SysStreamsLogger.bindSystemStreams(defaultErrorFilter, warnErrorFilter);
     }
 
+    @Setter
+    private ChromeDriverLocationStrategy locationStrategy = new ChromeDriverLocationStrategy();
+
     public ChromeDriverServiceFactory(ChromeDriverConfiguration config) {
         super(config);
     }
@@ -62,15 +63,16 @@ public class ChromeDriverServiceFactory extends DriverServiceFactory<ChromeDrive
         handleDISPLAYonLinux(environment);
 
         return new Builder()
-                .usingDriverExecutable(EXECUTABLE)
+                .usingDriverExecutable(locationStrategy.findExecutable())
                 .withVerbose(log.isInfoEnabled())
                 .withEnvironment(environment)
-                .usingAnyFreePort().build();
+                .usingAnyFreePort()
+                .build();
     }
 
     private void handleDISPLAYonLinux(Map<String, String> environment) {
-        if ("Linux".equals(System.getProperty("os.name")) && !environment.containsKey("DISPLAY")) {
-            String displayFromEnvironment = System.getenv().get("DISPLAY");
+        if ("Linux".equals(System.getenv("os.name")) && !environment.containsKey("DISPLAY")) {
+            String displayFromEnvironment = System.getenv("DISPLAY");
             if (null != displayFromEnvironment) {
                 log.info("using DISPLAY {}", displayFromEnvironment);
                 environment.put("DISPLAY", displayFromEnvironment);
