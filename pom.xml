@@ -221,7 +221,6 @@
                         <goals>
                             <goal>jar-no-fork</goal>
                         </goals>
-                        <phase>install</phase>
                     </execution>
                 </executions>
             </plugin>
@@ -240,7 +239,6 @@
                         <goals>
                             <goal>jar</goal>
                         </goals>
-                        <phase>install</phase>
                     </execution>
                 </executions>
             </plugin>
