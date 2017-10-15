@@ -30,4 +30,4 @@ fi
 # cleanup instances
 docker kill  $CONTAINER_ID
 docker rm -f $CONTAINER_ID
-#docker rmi   $IMAGE_ID
+docker rmi   $IMAGE_ID

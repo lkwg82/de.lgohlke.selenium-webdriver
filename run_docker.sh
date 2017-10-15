@@ -6,7 +6,7 @@ DOCKER_WEBDRIVER="$DOCKER_USER_TMP/webdriver"
 
 mkdir -p $DOCKER_M2/wrapper           # create the directory before
 mkdir -p $DOCKER_M2/repository        # create the directory before
-mkdir -p $DOCKER_WEBDRIVER    # to have the correct ownership
+mkdir -p $DOCKER_WEBDRIVER            # to have the correct ownership
 
 args="--name=webdriver-test-$$ -m 1500M --memory-swap=-1 \
     -v /dev/shm:/dev/shm \
