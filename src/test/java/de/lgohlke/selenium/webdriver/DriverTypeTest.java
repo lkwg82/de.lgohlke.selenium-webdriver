@@ -1,10 +1,11 @@
 package de.lgohlke.selenium.webdriver;
 
+import com.google.gson.Gson;
 import de.lgohlke.selenium.webdriver.chrome.ChromeDriverConfiguration;
 import org.junit.Test;
 import org.openqa.selenium.chrome.ChromeOptions;
 
-import java.io.IOException;
+import java.util.TreeMap;
 
 import static de.lgohlke.selenium.webdriver.DriverType.CHROME;
 import static de.lgohlke.selenium.webdriver.DriverType.CHROME_HEADLESS;
@@ -17,16 +18,15 @@ public class DriverTypeTest {
     }
 
     @Test
-    public void CHROME_HEADLESS_shouldCheckConfigurationType_Ok() throws IOException {
+    public void CHROME_HEADLESS_shouldCheckConfigurationType_Ok() {
         DriverServiceFactory factory = CHROME_HEADLESS.driverServiceFactory(new ChromeDriverConfiguration());
         DriverConfiguration configuration = factory.getDriverConfiguration();
 
         Object capability = configuration.createCapabilities()
                                          .getCapability(ChromeOptions.CAPABILITY);
 
-        assertThat(capability).isInstanceOf(ChromeOptions.class);
-        assertThat(((ChromeOptions) capability).toJson()
-                                               .toString()).isEqualTo(
-                "{\"args\":[\"--headless\",\"--disable-gpu\"],\"extensions\":[]}");
+        assertThat(capability).isInstanceOf(TreeMap.class);
+        String json = new Gson().toJson(capability);
+        assertThat(json).isEqualTo("{\"args\":[\"--headless\",\"--disable-gpu\"],\"extensions\":[]}");
     }
 }

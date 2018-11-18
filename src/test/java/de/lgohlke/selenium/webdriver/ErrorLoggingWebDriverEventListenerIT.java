@@ -20,7 +20,7 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.util.concurrent.TimeUnit;
+import java.time.Duration;
 
 import static de.lgohlke.selenium.webdriver.DriverType.CHROME_HEADLESS;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -68,8 +68,8 @@ public class ErrorLoggingWebDriverEventListenerIT {
         ExpectedCondition<WebElement> condition = ExpectedConditions.presenceOfElementLocated(locator);
 
         try {
-            new WebDriverWait(driverChrome, 1).pollingEvery(1, TimeUnit.SECONDS)
-                                              .until(condition);
+            WebDriverWait wait = new WebDriverWait(driverChrome, 1);
+            wait.pollingEvery(Duration.ofSeconds(1)).until(condition);
         } catch (TimeoutException e) {
             // ok
         }
