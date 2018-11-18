@@ -36,7 +36,7 @@ for using the pre-installed chromedriver in `$PATH`
 </project>
 
 
-for using explicitly a chromedriver version or phantomjs
+for using explicitly a chromedriver version 
 <project>
     ...
     <properties>
@@ -55,11 +55,6 @@ for using explicitly a chromedriver version or phantomjs
                         <driver>
                             <name>chromedriver</name>
                             <platform>linux</platform>
-                        </driver>
-                        <driver>
-                            <name>phantomjs</name>
-                            <platform>linux</platform>
-                            <version>1.9.8</version>
                         </driver>
                     </drivers>
                     <installationDirectory>${drivers.installation.directory}</installationDirectory>
@@ -133,7 +128,7 @@ for using explicitly a chromedriver version or phantomjs
   }
 ```
 # development instructions
-- on linux in intellij you need to pass `DISPLAY=:0.0` variable in run configuration of each test (or run phantomjs or chrome headless)
+- on linux in intellij you need to pass `DISPLAY=:0.0` variable in run configuration of each test (or run chrome headless)
 
 # build instructions
 

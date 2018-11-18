@@ -33,11 +33,6 @@
                             <platform>linux</platform>
                             <version>2.19</version>
                         </driver>
-                        <driver>
-                            <name>phantomjs</name>
-                            <platform>linux</platform>
-                            <version>1.9.7</version>
-                        </driver>
                     </drivers>
                     <installationDirectory>${drivers.installation.directory}</installationDirectory>
                     <keepDownloadedWebdrivers>true</keepDownloadedWebdrivers>

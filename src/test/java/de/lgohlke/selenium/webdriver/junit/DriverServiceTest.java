@@ -26,12 +26,12 @@ public class DriverServiceTest {
 
     @Test
     public void testStart() throws Throwable {
-        driverService = new DriverService(DriverType.PHANTOMJS);
+        driverService = new DriverService(DriverType.CHROME_HEADLESS);
         driverService.before();
 
         WebDriver driver = driverService.getDriver();
         assertThat(driver).isInstanceOf(RemoteWebDriver.class);
-        assertThat(driver.toString()).startsWith("RemoteWebDriver: phantomjs on ");
+        assertThat(driver.toString()).startsWith("RemoteWebDriver: chrome on ");
     }
 
     @Test
@@ -39,7 +39,7 @@ public class DriverServiceTest {
     public void shouldBeWrappedInEventFiringWebdriver() throws Throwable {
         AbstractWebDriverEventListener eventListener = new AbstractWebDriverEventListener() {
         };
-        driverService = new DriverService(DriverType.PHANTOMJS, eventListener);
+        driverService = new DriverService(DriverType.CHROME_HEADLESS, eventListener);
 
         driverService.before();
 

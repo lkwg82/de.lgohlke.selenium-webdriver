@@ -9,14 +9,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.events.AbstractWebDriverEventListener;
 import org.openqa.selenium.support.events.EventFiringWebDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
@@ -30,7 +23,6 @@ import java.nio.charset.Charset;
 import java.util.concurrent.TimeUnit;
 
 import static de.lgohlke.selenium.webdriver.DriverType.CHROME_HEADLESS;
-import static de.lgohlke.selenium.webdriver.DriverType.PHANTOMJS;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 
@@ -39,13 +31,10 @@ public class ErrorLoggingWebDriverEventListenerIT {
     @Rule
     public TemporaryFolder        testFolder             = new TemporaryFolder();
     @Rule
-    public DriverService          driverServicePhantomJS = new DriverService(PHANTOMJS);
-    @Rule
     public DriverService          driverServiceChrome    = new DriverService(CHROME_HEADLESS);
     @Rule
     public HttpServerFromResource httpServer             = new HttpServerFromResource("/");
 
-    private WebDriver                          driverPhantomJS;
     private WebDriver                          driverChrome;
     private ErrorLoggingWebDriverEventListener chromeEventListener;
     private File                               tempFolder;
@@ -53,16 +42,9 @@ public class ErrorLoggingWebDriverEventListenerIT {
     @Before
     public void beforeEachTest() throws IOException {
         tempFolder = testFolder.newFolder();
-        driverPhantomJS = new EventFiringWebDriver(driverServicePhantomJS.getDriver())
-                .register(new ErrorLoggingWebDriverEventListener(tempFolder.getPath()));
         chromeEventListener = new ErrorLoggingWebDriverEventListener(tempFolder.getPath());
         driverChrome = new EventFiringWebDriver(driverServiceChrome.getDriver())
                 .register(chromeEventListener);
-    }
-
-    @Test
-    public void testScreenshotsPhantomJS() throws IOException {
-        testWithDriver(driverPhantomJS);
     }
 
     @Test

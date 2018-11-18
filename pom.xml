@@ -59,7 +59,6 @@
         <log4j.version>2.8.2</log4j.version>
 
         <drivers.installation.directory>${env.HOME}/tmp_webdrivers</drivers.installation.directory>
-        <phantomjsdriver.version>1.2.0</phantomjsdriver.version>
         <maven.build.timestamp.format>mmssSS</maven.build.timestamp.format>
     </properties>
 
@@ -146,11 +145,6 @@
                         <driver>
                             <name>chromedriver</name>
                             <platform>linux</platform>
-                        </driver>
-                        <driver>
-                            <name>phantomjs</name>
-                            <platform>linux</platform>
-                            <version>1.9.8</version>
                         </driver>
                     </drivers>
                     <installationDirectory>${drivers.installation.directory}</installationDirectory>
@@ -381,21 +375,6 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.github.detro</groupId>
-            <artifactId>phantomjsdriver</artifactId>
-            <version>${phantomjsdriver.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.eclipse.jetty</groupId>
-                    <artifactId>*</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.seleniumhq.selenium</groupId>
-                    <artifactId>selenium-java</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>jul-to-slf4j</artifactId>
             <version>${slf4j.version}</version>
@@ -617,8 +596,6 @@
                             </targetTests>
                             <excludedClasses>
                                 <excludedClass>de.lgohlke.selenium.webdriver.AbstractWebDriver</excludedClass>
-                                <excludedClass>de.lgohlke.selenium.webdriver.phantomjs.PhantomJSDriverServiceFactoryIT
-                                </excludedClass>
                             </excludedClasses>
                             <threads>4</threads>
                             <timestampedReports>false</timestampedReports>
