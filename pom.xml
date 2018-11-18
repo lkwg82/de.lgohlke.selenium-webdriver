@@ -68,7 +68,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
-                <version>1.4.1</version>
+                <version>3.0.0-M2</version>
                 <executions>
                     <execution>
                         <id>enforce-dependency-convergence</id>
@@ -91,6 +91,9 @@
                                 <banDuplicateClasses>
                                     <findAllDuplicates>true</findAllDuplicates>
                                 </banDuplicateClasses>
+                                <requireMavenVersion>
+                                    <version>3.5</version>
+                                </requireMavenVersion>
                             </rules>
                             <fail>true</fail>
                         </configuration>
@@ -137,7 +140,7 @@
             <plugin>
                 <groupId>com.github.webdriverextensions</groupId>
                 <artifactId>webdriverextensions-maven-plugin</artifactId>
-                <version>3.1.2</version>
+                <version>3.1.3</version>
                 <configuration>
                     <drivers>
                         <driver>
@@ -166,7 +169,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.6.0</version>
+                <version>3.8.0</version>
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
@@ -434,7 +437,7 @@
                     <plugin>
                         <groupId>org.jacoco</groupId>
                         <artifactId>jacoco-maven-plugin</artifactId>
-                        <version>0.7.9</version>
+                        <version>0.8.2</version>
                         <configuration>
                             <append>true</append>
                         </configuration>
@@ -536,7 +539,7 @@
                     <plugin>
                         <groupId>org.sonatype.plugins</groupId>
                         <artifactId>nexus-staging-maven-plugin</artifactId>
-                        <version>1.6.7</version>
+                        <version>1.6.8</version>
                         <extensions>true</extensions>
                         <configuration>
                             <serverId>ossrh</serverId>
@@ -559,7 +562,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-jar-plugin</artifactId>
-                        <version>3.0.2</version>
+                        <version>3.1.0</version>
                         <executions>
                             <execution>
                                 <id>default-jar</id>
@@ -571,7 +574,7 @@
                     <plugin>
                         <groupId>org.pitest</groupId>
                         <artifactId>pitest-maven</artifactId>
-                        <version>1.2.2</version>
+                        <version>1.4.3</version>
                         <configuration>
                             <environmentVariables>
                                 <DRIVERS_PATH>${drivers.installation.directory}</DRIVERS_PATH>
