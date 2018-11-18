@@ -3,11 +3,7 @@ package de.lgohlke.selenium.webdriver.chrome;
 import com.sun.net.httpserver.HttpServer;
 import de.lgohlke.junit.FreeportProber;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Rule;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.rules.TemporaryFolder;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -109,36 +105,6 @@ public class ChromeDriverServiceFactoryIT {
         } finally {
             driverService.stop();
         }
-    }
-
-    @Ignore("we dont have a local http proxy anymore")
-    @Test
-    public void testProxyHTTP() throws IOException {
-        String[] arguments = factory.createServiceArgumentsBuilder()
-                                    .httpProxyServer("http://localhost:" + proxyPortProber.getPort())
-                                    .build();
-        driverService = factory.createService(arguments);
-        driverService.start();
-
-        WebDriver webDriver = factory.createWebDriver(driverService);
-        webDriver.get("http://www.lgohlke.de");
-        assertThat(webDriver.getPageSource()
-                            .length()).isBetween(24000, 26000);
-    }
-
-    @Ignore("we dont have a local https proxy anymore")
-    @Test
-    public void testProxyHTTPS() throws IOException {
-        String[] arguments = factory.createServiceArgumentsBuilder()
-                                    .httpProxyServer("http://localhost:" + proxyPortProber.getPort())
-                                    .build();
-        driverService = factory.createService(arguments);
-        driverService.start();
-
-        WebDriver webDriver = factory.createWebDriver(driverService);
-        webDriver.get("https://www.google.de");
-        assertThat(webDriver.getPageSource()
-                            .length()).isBetween(100000, 120022);
     }
 
     @Test(expected = IllegalArgumentException.class)
