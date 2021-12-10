@@ -56,7 +56,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <selenium.version>3.141.59</selenium.version>
         <slf4j.version>1.7.25</slf4j.version>
-        <log4j.version>2.11.1</log4j.version>
+        <log4j.version>2.15.0</log4j.version>
 
         <drivers.installation.directory>${env.HOME}/tmp_webdrivers</drivers.installation.directory>
         <maven.build.timestamp.format>mmssSS</maven.build.timestamp.format>
